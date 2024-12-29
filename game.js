@@ -51,19 +51,31 @@ class Player {
       this.y = height - groundHeight - this.height;
       this.velocity = 0;
       this.onGround = true;
+      this.canDoubleJump = true; // Reset double jump when on ground
     } else {
       this.onGround = false;
     }
+  }
 
-    if (keyIsDown(UP_ARROW) && this.onGround) {
+  jump() {
+    if (this.onGround) {
       this.velocity = this.jumpPower;
       this.onGround = false;
-      this.canDoubleJump = true;
+    } else if (this.canDoubleJump) {
+      this.velocity = this.jumpPower;
+      this.canDoubleJump = false; // Consume the double jump
     }
   }
 
   show() {
     fill(0, 0, 0);
     rect(this.x, this.y, this.width, this.height);
+  }
+}
+
+// Listen for jump input
+function keyPressed() {
+  if (keyCode === UP_ARROW) {
+    player.jump();
   }
 }
