@@ -6,6 +6,9 @@ let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
 let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
+let cameraX;
+let cameraY;
+
 function setup() {
   createCanvas(800, 600);
 
@@ -66,6 +69,13 @@ function drawStartScreen() {
 
 // Draw gameplay
 function drawGamePlay() {
+  // Update camera position to follow the player
+  cameraX = -player.x + width / 2 - player.width / 2;
+  cameraY = -player.y + height / 2 - player.height / 2;
+
+  push();
+  translate(cameraX, cameraY);
+
   // Update and display the player
   player.update();
   player.show();
@@ -132,16 +142,6 @@ class Player {
     // Apply gravity
     this.velocity += this.gravity;
     this.y += this.velocity;
-
-    // // Collision with the ground
-    // if (this.y >= height - this.height) {
-    //   this.y = height - this.height;
-    //   this.velocity = 0;
-    //   this.onGround = true;
-    //   this.canDoubleJump = true; // Reset double jump when on ground
-    // } else {
-    //   this.onGround = false;
-    // }
   }
 
   jump() {
