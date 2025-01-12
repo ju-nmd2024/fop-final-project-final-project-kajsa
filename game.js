@@ -3,28 +3,51 @@ let player;
 let platforms = []; // Array to store platforms
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
 let cameraY;
 
+let aspectRatio = 16 / 9;
+
+let sizeWidth = 1500;
+let sizeHeight = sizeWidth / aspectRatio;
+
 function setup() {
-  createCanvas(800, 600);
+  createCanvas(sizeWidth, sizeHeight);
+  // createCanvas(800, 600);
+  // createCanvas(1500, 1080);
 
   // Define levels
   levels = [
     {
       name: "level1",
       platforms: [
-        { x: 200, y: 400, w: 100, h: 20 }, // A simple platform
+        { x: -300, y: 200, w: 300, h: height },
+        // { x: -300, y: 200, w: 300, h: height * -1 },
+        { x: 0, y: 200, w: 200, h: height },
+        { x: 400, y: 300, w: 150, h: 20 },
+
+        { x: 300, y: 100, w: 150, h: 50 },
+
+        { x: 680, y: -100, w: 200, h: 50 },
+        { x: 680, y: -350, w: 200, h: 50 },
+
+        { x: 1060, y: 100, w: 150, h: 50 },
+
+        { x: 1060, y: 100, w: 150, h: height },
+        { x: 1200, y: 200, w: 150, h: height },
+
+        { x: 1350, y: 600, w: 550, h: 20 },
+        { x: 400, y: 300, w: 150, h: 20 },
         { x: 400, y: 300, w: 150, h: 20 },
       ],
     },
     {
       name: "level2",
       platforms: [
-        { x: 100, y: 450, w: 120, h: 20 },
+        { x: 0, y: 450, w: 120, h: 20 },
         { x: 300, y: 350, w: 120, h: 20 },
         { x: 600, y: 250, w: 120, h: 20 },
       ],
@@ -69,8 +92,8 @@ function drawStartScreen() {
 
 // Draw gameplay
 function drawGamePlay() {
-  // Update camera position to follow the player
-  cameraX = -player.x + width / 2 - player.width / 2;
+  // // Update camera position to follow the player
+  cameraX = -player.x + width / -player.width + 300;
   cameraY = -player.y + height / 2 - player.height / 2;
 
   push();
@@ -119,8 +142,9 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 100;
+    this.x = 0;
     this.y = 150; // Starting position above the ground
+    // this.y = 50; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -177,22 +201,57 @@ class Platform {
 
   show() {
     fill(150);
+    noStroke();
     rect(this.x, this.y, this.w, this.h);
   }
 
+  /** struggled a lot with the collisions to the walls of the platforms
+
+https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
+
+  **/
+
   checkCollision(player) {
-    if (
-      player.x < this.x + this.w &&
-      player.x + player.width > this.x &&
-      player.y + player.height > this.y &&
-      player.y + player.height < this.y + this.h &&
-      player.velocity > 0
-    ) {
-      // Place the player on top of the platform
-      player.y = this.y - player.height;
-      player.velocity = 0;
-      player.onGround = true;
-      player.canDoubleJump = true; // Reset double jump when on a platform
+    const playerBottom = player.y + player.height;
+    const playerTop = player.y;
+    const playerRight = player.x + player.width;
+    const playerLeft = player.x;
+
+    const platformBottom = this.y + this.h;
+    const platformTop = this.y;
+    const platformRight = this.x + this.w;
+    const platformLeft = this.x;
+
+    const isOverlappingHorizontally =
+      playerRight > platformLeft && playerLeft < platformRight;
+
+    const isOverlappingVertically =
+      playerBottom > platformTop && playerTop < platformBottom;
+
+    if (isOverlappingHorizontally && isOverlappingVertically) {
+      // Player hits the top of the platform
+      if (
+        playerBottom > platformTop &&
+        player.y + player.velocity <= platformTop
+      ) {
+        player.y = platformTop - player.height;
+        player.velocity = 0;
+        player.onGround = true;
+        player.canDoubleJump = true;
+      }
+      // Player hits the bottom of the platform
+      else if (playerTop < platformBottom && player.velocity < 0) {
+        player.y = platformBottom;
+        player.velocity = 0;
+      }
+      // Player hits the left side of the platform
+      else if (playerRight > platformLeft && playerLeft < platformLeft) {
+        player.x = platformLeft - player.width;
+      }
+      // Player hits the right side of the platform
+      else if (playerLeft < platformRight && playerRight > platformRight) {
+        player.x = platformRight;
+      }
     }
   }
 }
