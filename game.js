@@ -24,24 +24,32 @@ function setup() {
     {
       name: "level1",
       platforms: [
-        { x: -300, y: 200, w: 300, h: height },
-        // { x: -300, y: 200, w: 300, h: height * -1 },
-        { x: 0, y: 200, w: 200, h: height },
-        { x: 400, y: 300, w: 150, h: 20 },
+        { x: -400, y: 200, w: 500, h: 500},
+        { x: -400, y: - 600, w: 300, h: 850},
 
         { x: 300, y: 100, w: 150, h: 50 },
 
         { x: 680, y: -100, w: 200, h: 50 },
-        { x: 680, y: -350, w: 200, h: 50 },
+        { x: 680, y: -850, w: 200, h: 600 },
 
         { x: 1060, y: 100, w: 150, h: 50 },
 
         { x: 1060, y: 100, w: 150, h: height },
         { x: 1200, y: 200, w: 150, h: height },
 
-        { x: 1350, y: 600, w: 550, h: 20 },
-        { x: 400, y: 300, w: 150, h: 20 },
-        { x: 400, y: 300, w: 150, h: 20 },
+        { x: 1350, y: 500, w: 400, h: 800 },
+
+        { x: 1600, y: -800, w: 550, h: 1050 },
+
+        { x: 1850, y: 400, w: 550, h: 50 },
+
+        { x: 1700, y: 800, w: 550, h: 500 },
+
+        { x: 2000, y: -500, w: 550, h: 1800 },
+
+
+        // { x: 400, y: 300, w: 150, h: 20 },
+        // { x: 400, y: 300, w: 150, h: 20 },
       ],
     },
     {
@@ -110,7 +118,7 @@ function drawGamePlay() {
   }
 
   // Check for level completion
-  if (player.x > width) {
+  if (player.x > 2000) {
     currentLevel++;
     if (currentLevel >= levels.length) {
       gameState = "gameOver"; // End the game if no more levels
@@ -142,9 +150,10 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 0;
-    this.y = 150; // Starting position above the ground
-    // this.y = 50; // Starting position above the ground
+    // this.x = 0;
+    // this.y = 150; // Starting position above the ground
+    this.x = 1900;
+    this.y = 100; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -156,12 +165,12 @@ class Player {
   }
 
   update() {
-    if (keyIsDown(LEFT_ARROW)) {
+    if (this.x > -100 && keyIsDown(LEFT_ARROW)) {
       this.x -= this.speed;
     }
     if (keyIsDown(RIGHT_ARROW)) {
       this.x += this.speed;
-    }
+    } 
 
     // Apply gravity
     this.velocity += this.gravity;
