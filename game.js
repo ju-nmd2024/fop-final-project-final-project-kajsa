@@ -2,7 +2,7 @@ let player;
 
 let platforms = []; // Array to store platforms
 
-let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
+let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver
 let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
@@ -24,8 +24,8 @@ function setup() {
     {
       name: "level1",
       platforms: [
-        { x: -400, y: 200, w: 500, h: 500},
-        { x: -400, y: - 600, w: 300, h: 850},
+        { x: -800, y: 200, w: 900, h: 500},
+        { x: -900, y: - 600, w: 700, h: 850},
 
         { x: 300, y: 100, w: 150, h: 50 },
 
@@ -45,11 +45,8 @@ function setup() {
 
         { x: 1700, y: 800, w: 550, h: 500 },
 
-        { x: 2000, y: -500, w: 550, h: 1800 },
+        { x: 2000, y: -500, w: 1050, h: 1800 },
 
-
-        // { x: 400, y: 300, w: 150, h: 20 },
-        // { x: 400, y: 300, w: 150, h: 20 },
       ],
     },
     {
@@ -101,7 +98,7 @@ function drawStartScreen() {
 // Draw gameplay
 function drawGamePlay() {
   // // Update camera position to follow the player
-  cameraX = -player.x + width / -player.width + 300;
+  cameraX = -player.x + width / -player.width + 600;
   cameraY = -player.y + height / 2 - player.height / 2;
 
   push();
@@ -150,10 +147,10 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    // this.x = 0;
-    // this.y = 150; // Starting position above the ground
-    this.x = 1900;
-    this.y = 100; // Starting position above the ground
+    this.x = 0;
+    this.y = 150; // Starting position above the ground
+    // this.x = 1900;
+    // this.y = 100; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -165,7 +162,7 @@ class Player {
   }
 
   update() {
-    if (this.x > -100 && keyIsDown(LEFT_ARROW)) {
+    if (this.x > -200 && keyIsDown(LEFT_ARROW)) {
       this.x -= this.speed;
     }
     if (keyIsDown(RIGHT_ARROW)) {
