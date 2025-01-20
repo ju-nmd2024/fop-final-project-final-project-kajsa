@@ -209,48 +209,41 @@ class Platform {
 
 https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
 
+fix bug that makes jumping close to platform gets the player stuck
+
   **/
 
   checkCollision(player) {
-    const playerBottom = player.y + player.height;
-    const playerTop = player.y;
-    const playerRight = player.x + player.width;
-    const playerLeft = player.x;
-
-    const platformBottom = this.y + this.h;
-    const platformTop = this.y;
-    const platformRight = this.x + this.w;
-    const platformLeft = this.x;
 
     const isOverlappingHorizontally =
-      playerRight > platformLeft && playerLeft < platformRight;
+      player.x + player.width > this.x && player.x < this.x + this.w;
 
     const isOverlappingVertically =
-      playerBottom > platformTop && playerTop < platformBottom;
+      player.y + player.height > this.y && player.y < this.y + this.h;
 
     if (isOverlappingHorizontally && isOverlappingVertically) {
       // Player hits the top of the platform
       if (
-        playerBottom > platformTop &&
-        player.y + player.velocity <= platformTop
+        player.y + player.height > this.y &&
+        player.y + player.velocity <= this.y
       ) {
-        player.y = platformTop - player.height;
+        player.y = this.y - player.height;
         player.velocity = 0;
         player.onGround = true;
         player.canDoubleJump = true;
       }
       // Player hits the bottom of the platform
-      else if (playerTop < platformBottom && player.velocity < 0) {
-        player.y = platformBottom;
+      else if (player.y < this.y + this.h && player.velocity < 0) {
+        player.y = this.y + this.h;
         player.velocity = 0;
       }
       // Player hits the left side of the platform
-      else if (playerRight > platformLeft && playerLeft < platformLeft) {
-        player.x = platformLeft - player.width;
+      else if (player.x + player.width > this.x && player.x < this.x) {
+        player.x = this.x - player.width;
       }
       // Player hits the right side of the platform
-      else if (playerLeft < platformRight && playerRight > platformRight) {
-        player.x = platformRight;
+      else if (player.x < this.x + this.w && player.x + player.width > this.x + this.w) {
+        player.x = this.x + this.w;
       }
     }
   }
