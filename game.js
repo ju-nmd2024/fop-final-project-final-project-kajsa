@@ -2,8 +2,8 @@ let player;
 
 let platforms = []; // Array to store platforms
 
-let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -52,9 +52,32 @@ function setup() {
     {
       name: "level2",
       platforms: [
-        { x: 0, y: 450, w: 120, h: 20 },
-        { x: 300, y: 350, w: 120, h: 20 },
-        { x: 600, y: 250, w: 120, h: 20 },
+        { x: -800, y: 200, w: 900, h: 500},
+        { x: -900, y: - 600, w: 700, h: 850},
+
+        { x: 200, y: 250, w: 320, h: 50 },
+
+        { x: 600, y: 150, w: 150, h: 50 },
+
+        { x: 850, y: 50, w: 150, h: 50 },
+
+        { x: 1100, y: -50, w: 150, h: 50 },
+
+        { x: 1350, y: -150, w: 200, h: 800 },
+
+        { x: 1350, y: -150, w: 150, h: 500 },
+
+        { x: 1550, y: 150, w: 1050, h: 800 },
+
+        { x: 1800, y: -1050, w: 800, h: 800 },
+
+        { x: 2000, y: -30, w: 150, h: 50 },
+
+        { x: 2500, y: -100, w: 150, h: 50 },
+
+        { x: 2600, y: -600, w: 1050, h: 1500 },
+
+
       ],
     },
     {
@@ -115,7 +138,23 @@ function drawGamePlay() {
   }
 
   // Check for level completion
-  if (player.x > 2000) {
+  if (player.x > 2000 && gameState === "level1") {
+    currentLevel++;
+    if (currentLevel >= levels.length) {
+      gameState = "gameOver"; // End the game if no more levels
+    } else {
+      loadLevel(currentLevel); // Load the next level
+      player.reset(); // Reset player position
+    }
+  } else if (player.x > 4000 && gameState === "level2"){
+    currentLevel++;
+    if (currentLevel >= levels.length) {
+      gameState = "gameOver"; // End the game if no more levels
+    } else {
+      loadLevel(currentLevel); // Load the next level
+      player.reset(); // Reset player position
+    }
+  } else if (player.x > 3500 && gameState === "level3"){
     currentLevel++;
     if (currentLevel >= levels.length) {
       gameState = "gameOver"; // End the game if no more levels
@@ -149,8 +188,8 @@ class Player {
   constructor() {
     this.x = 0;
     this.y = 150; // Starting position above the ground
-    // this.x = 1900;
-    // this.y = 100; // Starting position above the ground
+    // this.x = 2000;
+    // this.y = -100; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
