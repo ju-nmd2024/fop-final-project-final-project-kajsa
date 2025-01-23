@@ -3,7 +3,7 @@ let player;
 let platforms = []; // Array to store platforms
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 2; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -83,9 +83,10 @@ function setup() {
     {
       name: "level3",
       platforms: [
-        { x: 100, y: 450, w: 120, h: 20 },
-        { x: 300, y: 350, w: 120, h: 20 },
-        { x: 600, y: 250, w: 120, h: 20 },
+        { x: -800, y: 200, w: 900, h: 500},
+        { x: -900, y: - 600, w: 700, h: 850},
+
+
       ],
     },
   ];
@@ -291,6 +292,15 @@ fix bug that makes jumping close to platform gets the player stuck
         player.x = this.x + this.w;
       }
     }
+  }
+}
+
+class FallingPlatform{
+  constructor(x, y, w, h){
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
   }
 }
 
