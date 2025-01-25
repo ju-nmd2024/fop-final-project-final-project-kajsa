@@ -2,8 +2,10 @@ let player;
 
 let platforms = []; // Array to store platforms
 
+let fallingBricks = [];
+
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 2; // Tracks the current level
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -51,17 +53,28 @@ function setup() {
     },
     {
       name: "level2",
+
+      fallingBricks: [
+
+        { x: 600, y: 150, w: 150, h: 50 },
+ 
+         { x: 850, y: 50, w: 150, h: 50 },
+ 
+         { x: 1100, y: -50, w: 150, h: 50 },
+ 
+       ],
+
       platforms: [
         { x: -800, y: 200, w: 900, h: 500},
         { x: -900, y: - 600, w: 700, h: 850},
 
         { x: 200, y: 250, w: 320, h: 50 },
 
-        { x: 600, y: 150, w: 150, h: 50 },
+        // { x: 600, y: 150, w: 150, h: 50 },
 
-        { x: 850, y: 50, w: 150, h: 50 },
+        // { x: 850, y: 50, w: 150, h: 50 },
 
-        { x: 1100, y: -50, w: 150, h: 50 },
+        // { x: 1100, y: -50, w: 150, h: 50 },
 
         { x: 1350, y: -150, w: 200, h: 800 },
 
@@ -79,6 +92,9 @@ function setup() {
 
 
       ],
+
+      
+
     },
     {
       name: "level3",
@@ -138,6 +154,12 @@ function drawGamePlay() {
     platform.checkCollision(player);
   }
 
+    // Display platforms
+    for (let fallingBrick of fallingBricks) {
+      fallingBrick.show();
+      fallingBrick.checkCollisionFalling(player);
+    }
+
   // Check for level completion
   if (player.x > 2000 && gameState === "level1") {
     currentLevel++;
@@ -178,10 +200,20 @@ function drawGameOver() {
 // Load a level based on the index
 function loadLevel(index) {
   platforms = []; // Clear existing platforms
+  fallingBricks = [];
+
   let levelData = levels[index];
   for (let p of levelData.platforms) {
     platforms.push(new Platform(p.x, p.y, p.w, p.h));
   }
+
+  // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+
+  if (levelData.fallingBricks) {
+    for (let fb of levelData.fallingBricks) {
+      fallingBricks.push(new FallingBrick(fb.x, fb.y, fb.w, fb.h));
+    }
+}
 }
 
 // Player class
@@ -295,12 +327,69 @@ fix bug that makes jumping close to platform gets the player stuck
   }
 }
 
-class FallingPlatform{
+class FallingBrick{
   constructor(x, y, w, h){
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+  }
+
+  show(){
+    fill(200);
+    noStroke();
+    rect(this.x, this.y, this.w, this.h);
+  }
+
+  checkCollisionFalling(player) {
+
+    const isOverlappingHorizontally =
+      player.x + player.width > this.x && player.x < this.x + this.w;
+
+    const isOverlappingVertically =
+      player.y + player.height > this.y && player.y < this.y + this.h;
+
+    if (isOverlappingHorizontally && isOverlappingVertically) {
+      // Player hits the top of the platform
+      if (
+        player.y + player.height > this.y &&
+        player.y + player.velocity <= this.y
+      ) {
+        player.y = this.y - player.height;
+        player.velocity = 0;
+        player.onGround = true;
+        player.canDoubleJump = true;
+      }
+      // Player hits the bottom of the platform
+      else if (player.y < this.y + this.h && player.velocity < 0) {
+        player.y = this.y + this.h;
+        player.velocity = 0;
+      }
+      // Player hits the left side of the platform
+      else if (player.x + player.width > this.x && player.x < this.x) {
+        player.x = this.x - player.width;
+      }
+      // Player hits the right side of the platform
+      else if (player.x < this.x + this.w && player.x + player.width > this.x + this.w) {
+        player.x = this.x + this.w;
+      }
+    }
+  }
+}
+
+class Spikes{
+  constructor(){
+
+  }
+
+  show(){
+    
+  }
+}
+
+class MovingEnemies{
+  constructor(){
+    
   }
 }
 
