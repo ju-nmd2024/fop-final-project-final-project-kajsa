@@ -136,14 +136,11 @@ function setup() {
 
         { x: 2650, y: 800, w: 250, h: 750 },
 
-        { x: 2900, y: 500, w: 850, h: 1550 },
+        { x: 2900, y: 500, w: 850, h: 1950 },
 
         { x: 2600, y: 600, w: 100, h: 50 },
 
-        
-
-
-
+      
       ],
 
       levelEndX: 3100,
@@ -211,6 +208,7 @@ for (let spike of spikes){
 }
 
   // Check for level completion
+  if (player.y < 700){
   if (player.x > levels[currentLevel].levelEndX)  {
     currentLevel++;
     if (currentLevel >= levels.length) {
@@ -236,6 +234,11 @@ for (let spike of spikes){
       player.reset(); // Reset player position
     }
   }
+} else if (player.y > 700 && currentLevel === 0 || player.y > 700 && currentLevel === 1){
+  gameState = "gameOver";
+} else if (player.y > 1200 && currentLevel === 2){
+  gameState = "gameOver";
+} 
 }
 
 // Draw the game-over screen
