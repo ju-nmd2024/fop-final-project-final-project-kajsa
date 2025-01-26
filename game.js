@@ -128,6 +128,7 @@ function setup() {
 
         { x: -800, y: -900, w: 1400, h: 800 },
 
+
         { x: -800, y: 200, w: 950, h: 50 },
       
         { x: 400, y: - 900, w: 300, h: 1750},
@@ -163,6 +164,14 @@ function setup() {
       ],
 
       spikes: [
+
+        { x1: 100, y1: 200, x2: 150, y2: 200, x3: 125, y3: 150 },
+
+        { x1: 250, y1: 400, x2: 300, y2: 400, x3: 275, y3: 350 },
+
+        { x1: 100, y1: 600, x2: 150, y2: 600, x3: 125, y3: 550 },
+
+        { x1: 250, y1: 800, x2: 300, y2: 800, x3: 275, y3: 750 },
 
         { x1: 900, y1: 950, x2: 950, y2: 950, x3: 925, y3: 900 },
 
@@ -328,7 +337,7 @@ if (levelData.spikes){
 class Player {
   constructor() {
     this.x = 0;
-    this.y = 50; // Starting position above the ground
+    this.y = 500; // Starting position above the ground
     // this.x = 2600;
     // this.y = 700; // Starting position above the ground
     this.width = 50;
