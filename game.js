@@ -7,7 +7,7 @@ let fallingBricks = [];
 let spikes = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -74,6 +74,22 @@ function setup() {
     {
       name: "level2",
 
+      platforms: [
+        { x: -800, y: 200, w: 900, h: 500},
+        { x: -900, y: - 600, w: 700, h: 850},
+
+        { x: 200, y: 250, w: 320, h: 50 },
+
+        { x: 1350, y: -100, w: 250, h: 500 },
+
+        { x: 1550, y: 150, w: 1550, h: 800 },
+
+        { x: 1800, y: -1050, w: 1500, h: 800 },
+
+        { x: 2500, y: -100, w: 1050, h: 50 },
+
+      ],
+
       fallingBricks: [
 
         { x: 600, y: 150, w: 150, h: 50 },
@@ -86,30 +102,16 @@ function setup() {
  
        ],
 
-      platforms: [
-        { x: -800, y: 200, w: 900, h: 500},
-        { x: -900, y: - 600, w: 700, h: 850},
-
-        { x: 200, y: 250, w: 320, h: 50 },
-
-        { x: 1350, y: -150, w: 200, h: 800 },
-
-        { x: 1350, y: -150, w: 150, h: 500 },
-
-        { x: 1550, y: 150, w: 1550, h: 800 },
-
-        { x: 1800, y: -1050, w: 1500, h: 800 },
-
-        { x: 2500, y: -100, w: 1050, h: 50 },
-
-
-
-
-      ],
-
       spikes: [
 
-        { x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150 },
+        { x1: 335, y1: 250, x2: 385, y2: 250, x3: 360, y3: 200 },
+
+        { x1: 2000, y1: 150, x2: 2050, y2: 150, x3: 2025, y3: 100 },
+        { x1: 2050, y1: 150, x2: 2100, y2: 150, x3: 2075, y3: 100 },
+        { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
+
+
+        // { x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150 },
 
 
       ],
@@ -295,10 +297,10 @@ if (levelData.spikes){
 // Player class
 class Player {
   constructor() {
-    this.x = 0;
-    this.y = 50; // Starting position above the ground
-    // this.x = 1700;
-    // this.y = 100; // Starting position above the ground
+    // this.x = 0;
+    // this.y = 50; // Starting position above the ground
+    this.x = 2000;
+    this.y = 100; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
