@@ -7,7 +7,7 @@ let fallingBricks = [];
 let spikes = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 2; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -140,6 +140,7 @@ function setup() {
 
         { x: 0, y: 1100, w: 800, h: 1550},
 
+
         { x: 900, y: 950, w: 150, h: 50 },
 
         { x: 1200, y: 850, w: 250, h: 50 },
@@ -156,9 +157,38 @@ function setup() {
 
         { x: 2900, y: 500, w: 850, h: 1950 },
 
-        { x: 2600, y: 600, w: 100, h: 50 },
+        { x: 2600, y: 600, w: 125, h: 50 },
 
       
+      ],
+
+      spikes: [
+
+        { x1: 900, y1: 950, x2: 950, y2: 950, x3: 925, y3: 900 },
+
+        { x1: 1200, y1: 850, x2: 1250, y2: 850, x3: 1225, y3: 800 },
+
+        { x1: 1400, y1: 850, x2: 1450, y2: 850, x3: 1425, y3: 800 },
+
+        { x1: 1600, y1: 550, x2: 1650, y2: 550, x3: 1625, y3: 600 },
+
+        { x1: 1700, y1: 750, x2: 1750, y2: 750, x3: 1725, y3: 700 },
+
+        { x1: 1800, y1: 550, x2: 1850, y2: 550, x3: 1825, y3: 600 },
+
+        { x1: 2250, y1: 1000, x2: 2300, y2: 1000, x3: 2275, y3: 950 },
+
+        { x1: 2550, y1: 900, x2: 2600, y2: 900, x3: 2575, y3: 850 },
+
+        { x1: 2600, y1: 900, x2: 2650, y2: 900, x3: 2625, y3: 850 },
+
+        { x1: 2650, y1: 800, x2: 2700, y2: 800, x3: 2675, y3: 750 },
+
+        { x1: 2700, y1: 800, x2: 2750, y2: 800, x3: 2725, y3: 750 },
+
+        { x1: 2600, y1: 600, x2: 2650, y2: 600, x3: 2625, y3: 550 },
+
+
       ],
 
       levelEndX: 3100,
@@ -299,8 +329,8 @@ class Player {
   constructor() {
     // this.x = 0;
     // this.y = 50; // Starting position above the ground
-    this.x = 2000;
-    this.y = 100; // Starting position above the ground
+    this.x = 2600;
+    this.y = 700; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
