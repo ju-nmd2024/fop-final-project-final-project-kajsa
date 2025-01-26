@@ -37,18 +37,34 @@ function setup() {
 
         { x: 1060, y: 100, w: 150, h: 50 },
 
-        { x: 1060, y: 100, w: 150, h: height },
-        { x: 1200, y: 200, w: 150, h: height },
+        { x: 1060, y: 100, w: 200, h: 1000 },
+        { x: 1200, y: 250, w: 200, h: 800 },
 
-        { x: 1350, y: 500, w: 400, h: 800 },
+        { x: 1350, y: 400, w: 400, h: 800 },
 
-        { x: 1600, y: -800, w: 550, h: 1050 },
+        { x: 1550, y: -950, w: 550, h: 1050 },
 
-        { x: 1850, y: 400, w: 550, h: 50 },
-
-        { x: 1700, y: 800, w: 550, h: 500 },
+        { x: 1850, y: 275, w: 550, h: 50 },
 
         { x: 2000, y: -500, w: 1050, h: 1800 },
+
+      ],
+
+      spikes: [
+
+        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: -150 },
+
+        { x1: 1400, y1: 400, x2: 1450, y2: 400, x3: 1425, y3: 350 },
+        { x1: 1450, y1: 400, x2: 1500, y2: 400, x3: 1475, y3: 350 },
+        { x1: 1500, y1: 400, x2: 1550, y2: 400, x3: 1525, y3: 350 },
+        { x1: 1550, y1: 400, x2: 1600, y2: 400, x3: 1575, y3: 350 },
+
+        { x1: 1550, y1: 100, x2: 1600, y2: 100, x3: 1575, y3: 150 },
+        { x1: 1600, y1: 100, x2: 1650, y2: 100, x3: 1625, y3: 150 },
+        { x1: 1650, y1: 100, x2: 1700, y2: 100, x3: 1675, y3: 150 },
+        { x1: 1700, y1: 100, x2: 1750, y2: 100, x3: 1725, y3: 150 },
+        { x1: 1750, y1: 100, x2: 1800, y2: 100, x3: 1775, y3: 150 },
+        { x1: 1800, y1: 100, x2: 1850, y2: 100, x3: 1825, y3: 150 },
 
       ],
 
@@ -93,7 +109,7 @@ function setup() {
 
       spikes: [
 
-        { x: 200, y: 100, w: 50, h: 70 },
+        { x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150 },
 
 
       ],
@@ -271,7 +287,7 @@ function loadLevel(index) {
 
 if (levelData.spikes){
   for (let s of levelData.spikes){
-    spikes.push(new Spike (s.x, s.y, s.w, s.h));
+    spikes.push(new Spike (s.x1, s.y1, s.x2, s.y2, s.x3, s.y3));
   }
 }
 }
@@ -281,8 +297,8 @@ class Player {
   constructor() {
     this.x = 0;
     this.y = 50; // Starting position above the ground
-    // this.x = 1800;
-    // this.y = 700; // Starting position above the ground
+    // this.x = 1700;
+    // this.y = 100; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -443,17 +459,21 @@ class FallingBrick{
 
 // Platform class
 class Spike {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
+  constructor(x1, y1, x2, y2, x3, y3) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.x3 = x3;
+    this.y3 = y3;
   }
+
+  // x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150
 
   show() {
     fill(155, 0, 0);
     noStroke();
-    rect(this.x, this.y, this.w, this.h);
+    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
   }
 
   checkCollision(player) {
@@ -492,6 +512,58 @@ class Spike {
   }
   
 }
+
+// class Spike {
+//   constructor(x, y) {
+// this.x = x;
+// this.y = y;
+
+//   }
+
+//   // x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150
+
+//   show() {
+//     fill(155, 0, 0);
+//     noStroke();
+//     triangle(125, 200, 175, 200, 150, 150);
+//   }
+
+//   checkCollision(player) {
+//     const overlapX =
+//       Math.min(player.x + player.width - this.x, this.x + this.w - player.x);
+//     const overlapY =
+//       Math.min(player.y + player.height - this.y, this.y + this.h - player.y);
+  
+//     const isOverlappingHorizontally =
+//       player.x + player.width > this.x && player.x < this.x + this.w;
+//     const isOverlappingVertically =
+//       player.y + player.height > this.y && player.y < this.y + this.h;
+  
+//     if (isOverlappingHorizontally && isOverlappingVertically) {
+//       // Resolve collision based on the smallest overlap
+//       if (overlapX < overlapY) {
+//         // Player hits the side
+//         if (player.x + player.width / 2 < this.x + this.w / 2) {
+//           player.x = this.x - player.width; // Left side
+//         } else {
+//           player.x = this.x + this.w; // Right side
+//         }
+//       } else {
+//         // Player hits the top or bottom
+//         if (player.y + player.height / 2 < this.y + this.h / 2) {
+//           player.y = this.y - player.height; // Top
+//           player.velocity = 0; // Stop falling
+//           player.onGround = true;
+//           player.canDoubleJump = true;
+//         } else {
+//           player.y = this.y + this.h; // Bottom
+//           player.velocity = 0;
+//         }
+//       }
+//     }
+//   }
+  
+// }
 
 
 class MovingEnemies{
