@@ -20,8 +20,7 @@ let sizeHeight = sizeWidth / aspectRatio;
 
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
-  // createCanvas(800, 600);
-  // createCanvas(1500, 1080);
+
 
   // Define levels
   levels = [
@@ -81,13 +80,13 @@ function setup() {
 
         { x: 1350, y: -150, w: 150, h: 500 },
 
-        { x: 1550, y: 150, w: 1050, h: 800 },
+        { x: 1550, y: 150, w: 1550, h: 800 },
 
-        { x: 1800, y: -1050, w: 800, h: 800 },
+        { x: 1800, y: -1050, w: 1500, h: 800 },
 
-        { x: 2500, y: -100, w: 150, h: 50 },
+        { x: 2500, y: -100, w: 1050, h: 50 },
 
-        { x: 2600, y: -600, w: 1050, h: 1500 },
+
 
 
       ],
@@ -107,14 +106,47 @@ function setup() {
 
       platforms: [
 
-        { x: -50, y: -100, w: 350, h: 50 },
+        { x: -800, y: - 600, w: 800, h: 2550},
+
+        { x: -800, y: -900, w: 1400, h: 800 },
+
+        { x: -800, y: 200, w: 950, h: 50 },
+      
+        { x: 400, y: - 900, w: 300, h: 1750},
+
+        { x: 250, y: 400, w: 350, h: 50 },
+
+        { x: -800, y: 600, w: 950, h: 50 },
+
+        { x: 250, y: 800, w: 350, h: 50 },
+
+        { x: 0, y: 1100, w: 800, h: 1550},
+
+        { x: 900, y: 950, w: 150, h: 50 },
+
+        { x: 1200, y: 850, w: 250, h: 50 },
+
+        { x: 1600, y: 750, w: 350, h: 50 },
+
+        { x: 1400, y: 50, w: 500, h: 500 },
+
+        { x: 2050, y: 1000, w: 350, h: 450 },
+
+        { x: 2400, y: 900, w: 250, h: 550 },
+
+        { x: 2650, y: 800, w: 250, h: 750 },
+
+        { x: 2900, y: 500, w: 850, h: 1550 },
+
+        { x: 2600, y: 600, w: 100, h: 50 },
+
         
-        { x: -800, y: 200, w: 900, h: 500},
+
 
 
       ],
 
-      levelEndX: 2500,
+      levelEndX: 3100,
 
     },
   ];
@@ -123,7 +155,7 @@ function setup() {
   loadLevel(currentLevel);
 
   // Initialize the player
-  player = new Player(50, 90);
+  player = new Player();
 }
 
 function draw() {
@@ -245,9 +277,9 @@ if (levelData.spikes){
 class Player {
   constructor() {
     this.x = 0;
-    this.y = 150; // Starting position above the ground
-    // this.x = 2000;
-    // this.y = -100; // Starting position above the ground
+    this.y = 50; // Starting position above the ground
+    // this.x = 1800;
+    // this.y = 700; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -287,10 +319,11 @@ class Player {
   }
 
   reset() {
-    this.x = 100;
-    this.y = 50;
+    this.x = 0;
+    this.y = 150;
     this.velocity = 0;
   }
+
 }
 
 // Platform class
