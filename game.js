@@ -157,7 +157,7 @@ function setup() {
 
         { x: 2900, y: 500, w: 850, h: 1950 },
 
-        { x: 2600, y: 600, w: 125, h: 50 },
+        { x: 2600, y: 550, w: 125, h: 50 },
 
       
       ],
@@ -186,7 +186,7 @@ function setup() {
 
         { x1: 2700, y1: 800, x2: 2750, y2: 800, x3: 2725, y3: 750 },
 
-        { x1: 2600, y1: 600, x2: 2650, y2: 600, x3: 2625, y3: 550 },
+        { x1: 2600, y1: 550, x2: 2650, y2: 550, x3: 2625, y3: 500 },
 
 
       ],
@@ -327,10 +327,10 @@ if (levelData.spikes){
 // Player class
 class Player {
   constructor() {
-    // this.x = 0;
-    // this.y = 50; // Starting position above the ground
-    this.x = 2600;
-    this.y = 700; // Starting position above the ground
+    this.x = 0;
+    this.y = 50; // Starting position above the ground
+    // this.x = 2600;
+    // this.y = 700; // Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
