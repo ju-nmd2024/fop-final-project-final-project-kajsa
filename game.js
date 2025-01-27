@@ -21,14 +21,13 @@ let sizeHeight = sizeWidth / aspectRatio;
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
 
-
   // Define levels
   levels = [
     {
       name: "level1",
       platforms: [
-        { x: -800, y: 200, w: 900, h: 500},
-        { x: -900, y: - 600, w: 700, h: 850},
+        { x: -800, y: 200, w: 900, h: 500 },
+        { x: -900, y: -600, w: 700, h: 850 },
 
         { x: 300, y: 100, w: 150, h: 50 },
 
@@ -47,11 +46,9 @@ function setup() {
         { x: 1850, y: 275, w: 550, h: 50 },
 
         { x: 2000, y: -500, w: 1050, h: 1800 },
-
       ],
 
       spikes: [
-
         { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: -150 },
 
         { x1: 1400, y1: 400, x2: 1450, y2: 400, x3: 1425, y3: 350 },
@@ -65,18 +62,16 @@ function setup() {
         { x1: 1700, y1: 100, x2: 1750, y2: 100, x3: 1725, y3: 150 },
         { x1: 1750, y1: 100, x2: 1800, y2: 100, x3: 1775, y3: 150 },
         { x1: 1800, y1: 100, x2: 1850, y2: 100, x3: 1825, y3: 150 },
-
       ],
 
       levelEndX: 1900,
-
     },
     {
       name: "level2",
 
       platforms: [
-        { x: -800, y: 200, w: 900, h: 500},
-        { x: -900, y: - 600, w: 700, h: 850},
+        { x: -800, y: 200, w: 900, h: 500 },
+        { x: -900, y: -600, w: 700, h: 850 },
 
         { x: 200, y: 250, w: 320, h: 50 },
 
@@ -87,51 +82,41 @@ function setup() {
         { x: 1800, y: -1050, w: 1500, h: 800 },
 
         { x: 2500, y: -100, w: 1050, h: 50 },
-
       ],
 
       fallingBricks: [
-
         { x: 600, y: 150, w: 150, h: 50 },
- 
-         { x: 850, y: 50, w: 150, h: 50 },
- 
-         { x: 1100, y: -50, w: 150, h: 50 },
 
-         { x: 2000, y: -30, w: 150, h: 50 },
- 
-       ],
+        { x: 850, y: 50, w: 150, h: 50 },
+
+        { x: 1100, y: -50, w: 150, h: 50 },
+
+        { x: 2000, y: -30, w: 150, h: 50 },
+      ],
 
       spikes: [
-
         { x1: 335, y1: 250, x2: 385, y2: 250, x3: 360, y3: 200 },
 
         { x1: 2000, y1: 150, x2: 2050, y2: 150, x3: 2025, y3: 100 },
         { x1: 2050, y1: 150, x2: 2100, y2: 150, x3: 2075, y3: 100 },
         { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
 
-
         // { x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150 },
-
-
       ],
 
       levelEndX: 2500,
-
     },
     {
       name: "level3",
 
       platforms: [
-
-        { x: -800, y: - 600, w: 800, h: 2550},
+        { x: -800, y: -600, w: 800, h: 2550 },
 
         { x: -800, y: -900, w: 1400, h: 800 },
 
-
         { x: -800, y: 200, w: 950, h: 50 },
-      
-        { x: 400, y: - 900, w: 300, h: 1750},
+
+        { x: 400, y: -900, w: 300, h: 1750 },
 
         { x: 250, y: 400, w: 350, h: 50 },
 
@@ -139,8 +124,7 @@ function setup() {
 
         { x: 250, y: 800, w: 350, h: 50 },
 
-        { x: 0, y: 1100, w: 800, h: 1550},
-
+        { x: 0, y: 1100, w: 800, h: 1550 },
 
         { x: 900, y: 950, w: 150, h: 50 },
 
@@ -159,12 +143,9 @@ function setup() {
         { x: 2900, y: 500, w: 850, h: 1950 },
 
         { x: 2600, y: 550, w: 125, h: 50 },
-
-      
       ],
 
       spikes: [
-
         { x1: 100, y1: 200, x2: 150, y2: 200, x3: 125, y3: 150 },
 
         { x1: 250, y1: 400, x2: 300, y2: 400, x3: 275, y3: 350 },
@@ -196,12 +177,9 @@ function setup() {
         { x1: 2700, y1: 800, x2: 2750, y2: 800, x3: 2725, y3: 750 },
 
         { x1: 2600, y1: 550, x2: 2650, y2: 550, x3: 2625, y3: 500 },
-
-
       ],
 
       levelEndX: 3100,
-
     },
   ];
 
@@ -252,50 +230,53 @@ function drawGamePlay() {
     platform.checkCollision(player);
   }
 
-    // Display falling platforms
-    for (let fallingBrick of fallingBricks) {
-      fallingBrick.show();
-      fallingBrick.checkCollision(player);
-    }
+  // Display falling platforms
+  for (let fallingBrick of fallingBricks) {
+    fallingBrick.show();
+    fallingBrick.checkCollision(player);
+  }
 
-    // display spikes
-for (let spike of spikes){
-  spike.show();
-  spike.checkCollision(player);
-}
+  // display spikes
+  for (let spike of spikes) {
+    spike.show();
+    spike.checkCollision(player);
+  }
 
   // Check for level completion
-  if (player.y < 700){
-  if (player.x > levels[currentLevel].levelEndX)  {
-    currentLevel++;
-    if (currentLevel >= levels.length) {
-      gameState = "gameOver"; // End the game if no more levels
-    } else {
-      loadLevel(currentLevel); // Load the next level
-      player.reset(); // Reset player position
+  if (player.y < 700) {
+    if (player.x > levels[currentLevel].levelEndX) {
+      currentLevel++;
+      if (currentLevel >= levels.length) {
+        gameState = "gameOver"; // End the game if no more levels
+      } else {
+        loadLevel(currentLevel); // Load the next level
+        player.reset(); // Reset player position
+      }
+    } else if (player.x > levels[currentLevel].levelEndX) {
+      currentLevel++;
+      if (currentLevel >= levels.length) {
+        gameState = "gameOver"; // End the game if no more levels
+      } else {
+        loadLevel(currentLevel); // Load the next level
+        player.reset(); // Reset player position
+      }
+    } else if (player.x > levels[currentLevel].levelEndX) {
+      currentLevel++;
+      if (currentLevel >= levels.length) {
+        gameState = "gameOver"; // End the game if no more levels
+      } else {
+        loadLevel(currentLevel); // Load the next level
+        player.reset(); // Reset player position
+      }
     }
-  } else if (player.x > levels[currentLevel].levelEndX){
-    currentLevel++;
-    if (currentLevel >= levels.length) {
-      gameState = "gameOver"; // End the game if no more levels
-    } else {
-      loadLevel(currentLevel); // Load the next level
-      player.reset(); // Reset player position
-    }
-  } else if (player.x > levels[currentLevel].levelEndX){
-    currentLevel++;
-    if (currentLevel >= levels.length) {
-      gameState = "gameOver"; // End the game if no more levels
-    } else {
-      loadLevel(currentLevel); // Load the next level
-      player.reset(); // Reset player position
-    }
+  } else if (
+    (player.y > 700 && currentLevel === 0) ||
+    (player.y > 700 && currentLevel === 1)
+  ) {
+    gameState = "gameOver";
+  } else if (player.y > 1200 && currentLevel === 2) {
+    gameState = "gameOver";
   }
-} else if (player.y > 700 && currentLevel === 0 || player.y > 700 && currentLevel === 1){
-  gameState = "gameOver";
-} else if (player.y > 1200 && currentLevel === 2){
-  gameState = "gameOver";
-} 
 }
 
 // Draw the game-over screen
@@ -324,20 +305,20 @@ function loadLevel(index) {
     for (let fb of levelData.fallingBricks) {
       fallingBricks.push(new FallingBrick(fb.x, fb.y, fb.w, fb.h));
     }
-}
-
-if (levelData.spikes){
-  for (let s of levelData.spikes){
-    spikes.push(new Spike (s.x1, s.y1, s.x2, s.y2, s.x3, s.y3));
   }
-}
+
+  if (levelData.spikes) {
+    for (let s of levelData.spikes) {
+      spikes.push(new Spike(s.x1, s.y1, s.x2, s.y2, s.x3, s.y3));
+    }
+  }
 }
 
 // Player class
 class Player {
   constructor() {
     this.x = 0;
-    this.y = 500; // Starting position above the ground
+    this.y = 50; // Starting position above the ground
     // this.x = 2600;
     // this.y = 700; // Starting position above the ground
     this.width = 50;
@@ -356,7 +337,7 @@ class Player {
     }
     if (keyIsDown(RIGHT_ARROW)) {
       this.x += this.speed;
-    } 
+    }
 
     // Apply gravity
     this.velocity += this.gravity;
@@ -383,7 +364,6 @@ class Player {
     this.y = 150;
     this.velocity = 0;
   }
-
 }
 
 // Platform class
@@ -412,16 +392,20 @@ fix bug that makes jumping close to platform gets the player stuck
   // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
 
   checkCollision(player) {
-    const overlapX =
-      Math.min(player.x + player.width - this.x, this.x + this.w - player.x);
-    const overlapY =
-      Math.min(player.y + player.height - this.y, this.y + this.h - player.y);
-  
+    const overlapX = Math.min(
+      player.x + player.width - this.x,
+      this.x + this.w - player.x
+    );
+    const overlapY = Math.min(
+      player.y + player.height - this.y,
+      this.y + this.h - player.y
+    );
+
     const isOverlappingHorizontally =
       player.x + player.width > this.x && player.x < this.x + this.w;
     const isOverlappingVertically =
       player.y + player.height > this.y && player.y < this.y + this.h;
-  
+
     if (isOverlappingHorizontally && isOverlappingVertically) {
       // Resolve collision based on the smallest overlap
       if (overlapX < overlapY) {
@@ -445,34 +429,43 @@ fix bug that makes jumping close to platform gets the player stuck
       }
     }
   }
-  
 }
 
-class FallingBrick{
-  constructor(x, y, w, h){
+class FallingBrick {
+  constructor() {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.width = width;
+    this.height = height;
+    this.dissolveTime = dissolveTime;
+    this.state = "visable";
+    this.timer = null;
+    this.dissolved = false;
   }
 
-  show(){
-    fill(200);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+  show() {
+    if (this.dissolved === false) {
+      fill(200);
+      noStroke();
+      rect(this.x, this.y, this.w, this.h);
+    }
   }
 
   checkCollision(player) {
-    const overlapX =
-      Math.min(player.x + player.width - this.x, this.x + this.w - player.x);
-    const overlapY =
-      Math.min(player.y + player.height - this.y, this.y + this.h - player.y);
-  
+    const overlapX = Math.min(
+      player.x + player.width - this.x,
+      this.x + this.w - player.x
+    );
+    const overlapY = Math.min(
+      player.y + player.height - this.y,
+      this.y + this.h - player.y
+    );
+
     const isOverlappingHorizontally =
       player.x + player.width > this.x && player.x < this.x + this.w;
     const isOverlappingVertically =
       player.y + player.height > this.y && player.y < this.y + this.h;
-  
+
     if (isOverlappingHorizontally && isOverlappingVertically) {
       // Resolve collision based on the smallest overlap
       if (overlapX < overlapY) {
@@ -517,100 +510,79 @@ class Spike {
     triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
   }
 
+  // Collision detection for triangle
+
+  // https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
+
   checkCollision(player) {
-    const overlapX =
-      Math.min(player.x + player.width - this.x, this.x + this.w - player.x);
-    const overlapY =
-      Math.min(player.y + player.height - this.y, this.y + this.h - player.y);
-  
-    const isOverlappingHorizontally =
-      player.x + player.width > this.x && player.x < this.x + this.w;
-    const isOverlappingVertically =
-      player.y + player.height > this.y && player.y < this.y + this.h;
-  
-    if (isOverlappingHorizontally && isOverlappingVertically) {
-      // Resolve collision based on the smallest overlap
-      if (overlapX < overlapY) {
-        // Player hits the side
-        if (player.x + player.width / 2 < this.x + this.w / 2) {
-          player.x = this.x - player.width; // Left side
-        } else {
-          player.x = this.x + this.w; // Right side
-        }
-      } else {
-        // Player hits the top or bottom
-        if (player.y + player.height / 2 < this.y + this.h / 2) {
-          player.y = this.y - player.height; // Top
-          player.velocity = 0; // Stop falling
-          player.onGround = true;
-          player.canDoubleJump = true;
-        } else {
-          player.y = this.y + this.h; // Bottom
-          player.velocity = 0;
-        }
-      }
+    const isColliding =
+      this.pointInTriangle(
+        player.x,
+        player.y,
+        this.x1,
+        this.y1,
+        this.x2,
+        this.y2,
+        this.x3,
+        this.y3
+      ) ||
+      this.pointInTriangle(
+        player.x + player.width,
+        player.y,
+        this.x1,
+        this.y1,
+        this.x2,
+        this.y2,
+        this.x3,
+        this.y3
+      ) ||
+      this.pointInTriangle(
+        player.x,
+        player.y + player.height,
+        this.x1,
+        this.y1,
+        this.x2,
+        this.y2,
+        this.x3,
+        this.y3
+      ) ||
+      this.pointInTriangle(
+        player.x + player.width,
+        player.y + player.height,
+        this.x1,
+        this.y1,
+        this.x2,
+        this.y2,
+        this.x3,
+        this.y3
+      );
+
+    if (isColliding) {
+      gameState = "gameOver"; // Game over if player touches the spike
     }
   }
-  
+
+  // Helper to check if a point is inside a triangle
+  pointInTriangle(px, py, x1, y1, x2, y2, x3, y3) {
+    const areaOrig = Math.abs(
+      (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2
+    );
+    const area1 = Math.abs(
+      (px * (y2 - y3) + x2 * (y3 - py) + x3 * (py - y2)) / 2
+    );
+    const area2 = Math.abs(
+      (x1 * (py - y3) + px * (y3 - y1) + x3 * (y1 - py)) / 2
+    );
+    const area3 = Math.abs(
+      (x1 * (y2 - py) + x2 * (py - y1) + px * (y1 - y2)) / 2
+    );
+
+    return areaOrig === area1 + area2 + area3;
+  }
 }
 
-// class Spike {
-//   constructor(x, y) {
-// this.x = x;
-// this.y = y;
-
-//   }
-
-//   // x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150
-
-//   show() {
-//     fill(155, 0, 0);
-//     noStroke();
-//     triangle(125, 200, 175, 200, 150, 150);
-//   }
-
-//   checkCollision(player) {
-//     const overlapX =
-//       Math.min(player.x + player.width - this.x, this.x + this.w - player.x);
-//     const overlapY =
-//       Math.min(player.y + player.height - this.y, this.y + this.h - player.y);
-  
-//     const isOverlappingHorizontally =
-//       player.x + player.width > this.x && player.x < this.x + this.w;
-//     const isOverlappingVertically =
-//       player.y + player.height > this.y && player.y < this.y + this.h;
-  
-//     if (isOverlappingHorizontally && isOverlappingVertically) {
-//       // Resolve collision based on the smallest overlap
-//       if (overlapX < overlapY) {
-//         // Player hits the side
-//         if (player.x + player.width / 2 < this.x + this.w / 2) {
-//           player.x = this.x - player.width; // Left side
-//         } else {
-//           player.x = this.x + this.w; // Right side
-//         }
-//       } else {
-//         // Player hits the top or bottom
-//         if (player.y + player.height / 2 < this.y + this.h / 2) {
-//           player.y = this.y - player.height; // Top
-//           player.velocity = 0; // Stop falling
-//           player.onGround = true;
-//           player.canDoubleJump = true;
-//         } else {
-//           player.y = this.y + this.h; // Bottom
-//           player.velocity = 0;
-//         }
-//       }
-//     }
-//   }
-  
-// }
-
-
-class MovingEnemies{
-  constructor(){
-    
-  }
+class MovingEnemies {
+  constructor() {}
 }
 
 // Handle key inputs
