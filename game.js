@@ -573,8 +573,32 @@ class Spike {
   }
 }
 
+// Player class
 class MovingEnemies {
-  constructor() {}
+  constructor() {
+    this.x = 0;
+    this.y = 50; // Starting position above the ground
+    this.width = 50;
+    this.height = 50;
+    this.speed = 5;
+    this.velocity = 0;
+  }
+
+  // automatic update //
+
+  update() {
+    if (this.x > -200 && keyIsDown(LEFT_ARROW)) {
+      this.x -= this.speed;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      this.x += this.speed;
+    }
+  }
+
+  show() {
+    fill(100, 100, 100);
+    rect(this.x, this.y, this.width, this.height);
+  }
 }
 
 // Handle key inputs
