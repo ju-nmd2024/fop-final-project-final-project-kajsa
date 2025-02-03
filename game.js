@@ -249,6 +249,7 @@ function drawGamePlay() {
 
   // display enemies
   for (let enemy of enemies) {
+    enemy.update();
     enemy.show();
     enemy.checkCollision(player);
   }
@@ -334,10 +335,8 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 1600;
-    this.y = 50; // Starting position above the ground
-    // this.x = 2600;
-    // this.y = 700; // Starting position above the ground
+    this.x = 2000; // 0 Starting position above the ground
+    this.y = -100; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -513,8 +512,6 @@ class Spike {
     this.y3 = y3;
   }
 
-  // x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150
-
   show() {
     fill(155, 0, 0);
     noStroke();
@@ -593,25 +590,37 @@ class Spike {
 // enemy
 class Enemy {
   constructor(x, y, w, h) {
+    this.originX = x;
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
 
-    this.speed = 5;
+    this.speed = 3;
+
+    this.direction = 1;
   }
 
-  update() {}
+  update() {
+    this.x += this.speed * this.direction; // Move enemy
+
+    // Calculate the new position
+    let newX = this.x + this.speed * this.direction;
+
+    // Ensure the enemy stays within `originX` and `originX + 150`
+    if (newX >= this.originX + 150 || newX <= this.originX - 150) {
+      this.direction *= -1; // Reverse direction
+    }
+  }
 
   checkCollision(player) {
     if (
-      player.x + player.width < this.x ||
-      player.x > this.x + this.w ||
-      player.y > this.y + this.h
+      player.x < this.x + this.w &&
+      player.x + player.width > this.x &&
+      player.y < this.y + this.h &&
+      player.y + player.height > this.y
     ) {
-      return false;
-    } else {
-      gameState = "gameOver";
+      gameState = "gameOver"; // Collision detected
     }
   }
 
