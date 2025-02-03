@@ -6,8 +6,10 @@ let fallingBricks = [];
 
 let spikes = [];
 
+let enemies = [];
+
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -100,8 +102,11 @@ function setup() {
         { x1: 2000, y1: 150, x2: 2050, y2: 150, x3: 2025, y3: 100 },
         { x1: 2050, y1: 150, x2: 2100, y2: 150, x3: 2075, y3: 100 },
         { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
+      ],
 
-        // { x1: 125, y1: 200, x2: 175, y2: 200, x3: 150, y3: 150 },
+      enemies: [
+        { x: 1750, y: 100, w: 100, h: 50 },
+        // { x: 1550, y: 150, w: 1550, h: 800 },
       ],
 
       levelEndX: 2500,
@@ -242,7 +247,12 @@ function drawGamePlay() {
     spike.checkCollision(player);
   }
 
-  // Check for level completion
+  // display enemies
+  for (let enemy of enemies) {
+    enemy.show();
+    enemy.checkCollision(player);
+  }
+
   if (player.y < 700) {
     if (player.x > levels[currentLevel].levelEndX) {
       currentLevel++;
@@ -293,6 +303,7 @@ function loadLevel(index) {
   platforms = []; // Clear existing platforms
   fallingBricks = [];
   spikes = [];
+  enemies = [];
 
   let levelData = levels[index];
   for (let p of levelData.platforms) {
@@ -312,12 +323,18 @@ function loadLevel(index) {
       spikes.push(new Spike(s.x1, s.y1, s.x2, s.y2, s.x3, s.y3));
     }
   }
+
+  if (levelData.enemies) {
+    for (let e of levelData.enemies) {
+      enemies.push(new Enemy(e.x, e.y, e.w, e.h));
+    }
+  }
 }
 
 // Player class
 class Player {
   constructor() {
-    this.x = 0;
+    this.x = 1600;
     this.y = 50; // Starting position above the ground
     // this.x = 2600;
     // this.y = 700; // Starting position above the ground
@@ -573,31 +590,35 @@ class Spike {
   }
 }
 
-// Player class
-class MovingEnemies {
-  constructor() {
-    this.x = 0;
-    this.y = 50; // Starting position above the ground
-    this.width = 50;
-    this.height = 50;
+// enemy
+class Enemy {
+  constructor(x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+
     this.speed = 5;
-    this.velocity = 0;
   }
 
-  // automatic update //
+  update() {}
 
-  update() {
-    if (this.x > -200 && keyIsDown(LEFT_ARROW)) {
-      this.x -= this.speed;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      this.x += this.speed;
+  checkCollision(player) {
+    if (
+      player.x + player.width < this.x ||
+      player.x > this.x + this.w ||
+      player.y > this.y + this.h
+    ) {
+      return false;
+    } else {
+      gameState = "gameOver";
     }
   }
 
   show() {
     fill(100, 100, 100);
-    rect(this.x, this.y, this.width, this.height);
+    noStroke();
+    rect(this.x, this.y, this.w, this.h);
   }
 }
 
