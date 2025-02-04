@@ -9,7 +9,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -19,8 +19,6 @@ let aspectRatio = 16 / 9;
 
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
-
-frameRate(60);
 
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -338,8 +336,8 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 0; // 0 Starting position above the ground
-    this.y = -150; // 50 Starting position above the ground
+    this.x = 1500; // 0 Starting position above the ground
+    this.y = -100; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -411,42 +409,39 @@ fix bug that makes jumping close to platform gets the player stuck
   // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
 
   checkCollision(player) {
-    let playerRight = player.x + player.width;
-    let playerBottom = player.y + player.height;
-    let platformRight = this.x + this.w;
-    let platformBottom = this.y + this.h;
+    const overlapX = Math.min(
+      player.x + player.width - this.x,
+      this.x + this.w - player.x
+    );
+    const overlapY = Math.min(
+      player.y + player.height - this.y,
+      this.y + this.h - player.y
+    );
 
-    let colliding =
-      player.x < platformRight &&
-      playerRight > this.x &&
-      player.y < platformBottom &&
-      playerBottom > this.y;
+    const isOverlappingHorizontally =
+      player.x + player.width > this.x && player.x < this.x + this.w;
+    const isOverlappingVertically =
+      player.y + player.height > this.y && player.y < this.y + this.h;
 
-    if (colliding) {
-      let overlapX = Math.min(playerRight - this.x, platformRight - player.x);
-      let overlapY = Math.min(playerBottom - this.y, platformBottom - player.y);
-
+    if (isOverlappingHorizontally && isOverlappingVertically) {
+      // Resolve collision based on the smallest overlap
       if (overlapX < overlapY) {
-        // **Side Collision (Left or Right)**
-        if (playerRight > this.x && player.x < this.x) {
-          // Player hits Left Side
-          player.x = this.x - player.width;
-        } else if (player.x < platformRight && playerRight > platformRight) {
-          // Player hits Right Side
-          player.x = platformRight;
+        // Player hits the side
+        if (player.x + player.width / 2 < this.x + this.w / 2) {
+          player.x = this.x - player.width; // Left side
+        } else {
+          player.x = this.x + this.w; // Right side
         }
       } else {
-        // **Top or Bottom Collision**
-        if (playerBottom > this.y && player.y < this.y) {
-          // Player lands on top
-          player.y = this.y - player.height;
-          player.velocity = 0;
+        // Player hits the top or bottom
+        if (player.y + player.height / 2 < this.y + this.h / 2) {
+          player.y = this.y - player.height; // Top
+          player.velocity = 0; // Stop falling
           player.onGround = true;
           player.canDoubleJump = true;
-        } else if (player.y < platformBottom && playerBottom > platformBottom) {
-          // Player hits bottom and bounces down
-          player.velocity = Math.max(player.velocity, 2);
-          player.y = platformBottom;
+        } else {
+          player.y = this.y + this.h; // Bottom
+          player.velocity = 0;
         }
       }
     }
@@ -455,7 +450,7 @@ fix bug that makes jumping close to platform gets the player stuck
 
 class FallingBrick {
   constructor(x, y, w, h) {
-    this.initialX = x;
+    this.initialX = x; // Store original position
     this.initialY = y;
     this.x = x;
     this.y = y;
@@ -473,8 +468,9 @@ class FallingBrick {
     if (this.isFalling) {
       this.fallSpeed += this.gravity;
       this.y += this.fallSpeed;
-      this.alpha -= 2;
+      this.alpha -= 5; // Gradually decrease opacity
 
+      // If fully faded, reset after falling off screen
       if (this.alpha <= 0) {
         this.reset();
       }
@@ -482,45 +478,20 @@ class FallingBrick {
   }
 
   checkCollision(player) {
-    let playerRight = player.x + player.width;
-    let playerBottom = player.y + player.height;
-    let brickRight = this.x + this.w;
-    let brickBottom = this.y + this.h;
+    if (!this.visible) return;
 
-    let colliding =
-      player.x < brickRight &&
-      playerRight > this.x &&
-      player.y < brickBottom &&
-      playerBottom > this.y;
+    const isPlayerOnTop =
+      player.x + player.width > this.x &&
+      player.x < this.x + this.w &&
+      player.y + player.height > this.y &&
+      player.y + player.height < this.y + this.h;
 
-    if (colliding) {
-      let overlapX = Math.min(playerRight - this.x, brickRight - player.x);
-      let overlapY = Math.min(playerBottom - this.y, brickBottom - player.y);
-
-      if (overlapX < overlapY) {
-        // **Side Collision** (Left or Right)
-        if (playerRight > this.x && player.x < this.x) {
-          // Hitting Left Side
-          player.x = this.x - player.width;
-        } else if (player.x < brickRight && playerRight > brickRight) {
-          // Hitting Right Side
-          player.x = brickRight;
-        }
-      } else {
-        // **Top or Bottom Collision**
-        if (playerBottom > this.y && player.y < this.y) {
-          // Player lands on top
-          player.y = this.y - player.height;
-          player.velocity = 0;
-          player.onGround = true;
-          player.canDoubleJump = true;
-          this.startFalling(); // Brick falls only if landed on
-        } else if (player.y < brickBottom && playerBottom > brickBottom) {
-          // Player hits bottom, bounce down
-          player.velocity = Math.max(player.velocity, 2); // Small bounce effect
-          player.y = brickBottom;
-        }
-      }
+    if (isPlayerOnTop && !this.isFalling) {
+      player.y = this.y - player.height;
+      player.velocity = 0;
+      player.onGround = true;
+      player.canDoubleJump = true;
+      this.startFalling();
     }
   }
 
@@ -538,10 +509,10 @@ class FallingBrick {
     this.alpha = 255;
     this.x = this.initialX;
     this.y = this.initialY;
-    this.visible = false; // Hide before respawning
+    this.visible = false; // Temporarily hide it
 
     setTimeout(() => {
-      this.visible = true;
+      this.visible = true; // Make it visible again after 2 seconds
     }, 2000);
   }
 
