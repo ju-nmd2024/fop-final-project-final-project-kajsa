@@ -9,7 +9,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 2; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -104,10 +104,7 @@ function setup() {
         { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
       ],
 
-      enemies: [
-        { x: 1750, y: 100, w: 100, h: 50 },
-        // { x: 1550, y: 150, w: 1550, h: 800 },
-      ],
+      enemies: [{ x: 1750, y: 100, w: 100, h: 50 }],
 
       levelEndX: 2500,
     },
@@ -204,6 +201,8 @@ function draw() {
     drawGamePlay();
   } else if (gameState === "gameOver") {
     drawGameOver();
+  } else if (gameState === "gameWin") {
+    drawGameWin();
   }
 }
 
@@ -255,31 +254,14 @@ function drawGamePlay() {
     enemy.checkCollision(player);
   }
 
-  if (player.y < 700) {
-    if (player.x > levels[currentLevel].levelEndX) {
-      currentLevel++;
-      if (currentLevel >= levels.length) {
-        gameState = "gameOver"; // End the game if no more levels
-      } else {
-        loadLevel(currentLevel); // Load the next level
-        player.reset(); // Reset player position
-      }
-    } else if (player.x > levels[currentLevel].levelEndX) {
-      currentLevel++;
-      if (currentLevel >= levels.length) {
-        gameState = "gameOver"; // End the game if no more levels
-      } else {
-        loadLevel(currentLevel); // Load the next level
-        player.reset(); // Reset player position
-      }
-    } else if (player.x > levels[currentLevel].levelEndX) {
-      currentLevel++;
-      if (currentLevel >= levels.length) {
-        gameState = "gameOver"; // End the game if no more levels
-      } else {
-        loadLevel(currentLevel); // Load the next level
-        player.reset(); // Reset player position
-      }
+  if (player.x > levels[currentLevel].levelEndX) {
+    currentLevel++;
+    if (currentLevel >= levels.length) {
+      gameState = "gameWin"; // Change to gameWin
+      drawGameWin();
+    } else {
+      loadLevel(currentLevel);
+      player.reset();
     }
   } else if (
     (player.y > 700 && currentLevel === 0) ||
@@ -297,6 +279,15 @@ function drawGameOver() {
   textSize(32);
   fill(0);
   text("Game Over", width / 2, height / 3);
+  text("Press ENTER to Restart", width / 2, height / 2);
+}
+
+// Draw the game-over screen
+function drawGameWin() {
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  fill(150, 150, 100);
+  text("YOU WIN!", width / 2, height / 3);
   text("Press ENTER to Restart", width / 2, height / 2);
 }
 
@@ -660,7 +651,10 @@ function keyPressed() {
     gameState = "gameplay"; // Start the game
   } else if (gameState === "gameplay" && keyCode === UP_ARROW) {
     player.jump(); // Make the player jump
-  } else if (gameState === "gameOver" && keyCode === ENTER) {
+  } else if (
+    gameState === "gameOver" ||
+    (gameState === "gameWin" && keyCode === ENTER)
+  ) {
     gameState = "startScreen"; // Restart the game
     currentLevel = 0; // Reset to the first level
     loadLevel(currentLevel); // Load the first level
