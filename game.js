@@ -11,7 +11,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let currentLevel = 2; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -27,14 +27,13 @@ function preload() {
   levelImages["level.2"] = loadImage("images/level2.png");
   levelImages["level.3"] = loadImage("images/level3.png");
 }
-
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
 
   // Define levels
   levels = [
     {
-      name: "level1",
+      name: "level.1",
       platforms: [
         { x: -800, y: 200, w: 900, h: 500 },
         { x: -800, y: -600, w: 600, h: 850 },
@@ -43,8 +42,6 @@ function setup() {
 
         { x: 680, y: -100, w: 200, h: 50 },
         { x: 680, y: -850, w: 200, h: 550 },
-
-        // { x: 1060, y: 100, w: 150, h: 50 },
 
         { x: 1060, y: 100, w: 200, h: 1000 },
         { x: 1200, y: 250, w: 200, h: 800 },
@@ -77,11 +74,11 @@ function setup() {
       levelEndX: 1900,
     },
     {
-      name: "level2",
+      name: "level.2",
 
       platforms: [
         { x: -800, y: 200, w: 900, h: 500 },
-        { x: -900, y: -600, w: 700, h: 850 },
+        { x: -800, y: -600, w: 600, h: 850 },
 
         { x: 200, y: 250, w: 320, h: 50 },
 
@@ -91,7 +88,9 @@ function setup() {
 
         { x: 1800, y: -1050, w: 1500, h: 800 },
 
-        { x: 2500, y: -100, w: 1050, h: 50 },
+        { x: 2480, y: -100, w: 1050, h: 50 },
+
+        { x: 2580, y: -500, w: 1050, h: 1800 },
       ],
 
       fallingBricks: [
@@ -117,22 +116,22 @@ function setup() {
       levelEndX: 2500,
     },
     {
-      name: "level3",
+      name: "level.3",
 
       platforms: [
         { x: -800, y: -600, w: 800, h: 2550 },
 
         { x: -800, y: -900, w: 1400, h: 800 },
 
-        { x: -800, y: 200, w: 950, h: 50 },
+        { x: -800, y: 200, w: 1000, h: 50 },
 
         { x: 400, y: -900, w: 300, h: 1750 },
 
-        { x: 250, y: 400, w: 350, h: 50 },
+        { x: 200, y: 400, w: 400, h: 50 },
 
-        { x: -800, y: 600, w: 950, h: 50 },
+        { x: -800, y: 600, w: 1000, h: 50 },
 
-        { x: 250, y: 800, w: 350, h: 50 },
+        { x: 200, y: 800, w: 450, h: 50 },
 
         { x: 0, y: 1100, w: 800, h: 1550 },
 
@@ -150,7 +149,7 @@ function setup() {
 
         { x: 2650, y: 800, w: 250, h: 750 },
 
-        { x: 2900, y: 500, w: 850, h: 1950 },
+        { x: 2900, y: 500, w: 1250, h: 1950 },
 
         { x: 2600, y: 550, w: 125, h: 50 },
       ],
@@ -225,17 +224,6 @@ function drawStartScreen() {
 
 // Draw gameplay
 function drawGamePlay() {
-  // Display the level background image
-  if (levels[currentLevel].name in levelImages) {
-    image(
-      levelImages[levels[currentLevel].name],
-      cameraX,
-      cameraY,
-      sizeWidth,
-      sizeHeight
-    );
-  }
-
   // // Update camera position to follow the player
   cameraX = -player.x + width / -player.width + 600;
   cameraY = -player.y + height / 2 - player.height / 2;
@@ -251,6 +239,28 @@ function drawGamePlay() {
   for (let platform of platforms) {
     platform.show();
     platform.checkCollision(player);
+  }
+
+  // Display level background image if it exists
+  if (levels[currentLevel].name in levelImages) {
+    // Dynamic positioning of the level images based on the current level
+    let bgImage = levelImages[levels[currentLevel].name];
+    let xOffset = 0; // Adjust x offset for each level, if needed
+    let yOffset = 0; // Adjust y offset for each level, if needed
+
+    // Adjust based on the level
+    if (levels[currentLevel].name === "level.1") {
+      xOffset = -800;
+      yOffset = -950;
+    } else if (levels[currentLevel].name === "level.2") {
+      xOffset = -800;
+      yOffset = -1060;
+    } else if (levels[currentLevel].name === "level.3") {
+      xOffset = -800;
+      yOffset = -900;
+    }
+
+    image(bgImage, xOffset, yOffset);
   }
 
   // Display falling platforms
@@ -346,7 +356,7 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 1200; // 0 Starting position above the ground
+    this.x = 0; // 0 Starting position above the ground
     this.y = 50; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
