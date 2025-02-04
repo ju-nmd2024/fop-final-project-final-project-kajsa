@@ -237,6 +237,7 @@ function drawGamePlay() {
 
   // Display falling platforms
   for (let fallingBrick of fallingBricks) {
+    fallingBrick.update(); // Ensure they fall when triggered
     fallingBrick.show();
     fallingBrick.checkCollision(player);
   }
@@ -335,7 +336,7 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 2000; // 0 Starting position above the ground
+    this.x = 1500; // 0 Starting position above the ground
     this.y = -100; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
@@ -449,54 +450,76 @@ fix bug that makes jumping close to platform gets the player stuck
 
 class FallingBrick {
   constructor(x, y, w, h) {
+    this.initialX = x; // Store original position
+    this.initialY = y;
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+
+    this.visible = true;
+    this.isFalling = false;
+    this.fallSpeed = 0;
+    this.gravity = 0.5;
+    this.alpha = 255; // Opacity for fade-out effect
   }
 
-  show() {
-    fill(200);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+  update() {
+    if (this.isFalling) {
+      this.fallSpeed += this.gravity;
+      this.y += this.fallSpeed;
+      this.alpha -= 5; // Gradually decrease opacity
+
+      // If fully faded, reset after falling off screen
+      if (this.alpha <= 0) {
+        this.reset();
+      }
+    }
   }
 
   checkCollision(player) {
-    const overlapX = Math.min(
-      player.x + player.width - this.x,
-      this.x + this.w - player.x
-    );
-    const overlapY = Math.min(
-      player.y + player.height - this.y,
-      this.y + this.h - player.y
-    );
+    if (!this.visible) return;
 
-    const isOverlappingHorizontally =
-      player.x + player.width > this.x && player.x < this.x + this.w;
-    const isOverlappingVertically =
-      player.y + player.height > this.y && player.y < this.y + this.h;
+    const isPlayerOnTop =
+      player.x + player.width > this.x &&
+      player.x < this.x + this.w &&
+      player.y + player.height > this.y &&
+      player.y + player.height < this.y + this.h;
 
-    if (isOverlappingHorizontally && isOverlappingVertically) {
-      // Resolve collision based on the smallest overlap
-      if (overlapX < overlapY) {
-        // Player hits the side
-        if (player.x + player.width / 2 < this.x + this.w / 2) {
-          player.x = this.x - player.width; // Left side
-        } else {
-          player.x = this.x + this.w; // Right side
-        }
-      } else {
-        // Player hits the top or bottom
-        if (player.y + player.height / 2 < this.y + this.h / 2) {
-          player.y = this.y - player.height; // Top
-          player.velocity = 0; // Stop falling
-          player.onGround = true;
-          player.canDoubleJump = true;
-        } else {
-          player.y = this.y + this.h; // Bottom
-          player.velocity = 0;
-        }
-      }
+    if (isPlayerOnTop && !this.isFalling) {
+      player.y = this.y - player.height;
+      player.velocity = 0;
+      player.onGround = true;
+      player.canDoubleJump = true;
+      this.startFalling();
+    }
+  }
+
+  startFalling() {
+    if (!this.isFalling) {
+      setTimeout(() => {
+        this.isFalling = true;
+      }, 500); // Delay before it starts falling
+    }
+  }
+
+  reset() {
+    this.isFalling = false;
+    this.fallSpeed = 0;
+    this.alpha = 255;
+    this.x = this.initialX;
+    this.y = this.initialY;
+    this.visible = false; // Temporarily hide it
+
+    setTimeout(() => {
+      this.visible = true; // Make it visible again after 2 seconds
+    }, 2000);
+  }
+
+  show() {
+    if (this.visible) {
+      fill(255, 0, 0, this.alpha);
+      rect(this.x, this.y, this.w, this.h);
     }
   }
 }
