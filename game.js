@@ -1,3 +1,5 @@
+let img;
+
 let player;
 
 let platforms = []; // Array to store platforms
@@ -9,7 +11,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -20,6 +22,12 @@ let aspectRatio = 16 / 9;
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
+let foreground1;
+
+function preload() {
+  foreground1 = loadImage("images/level1.png");
+}
+
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
 
@@ -29,14 +37,14 @@ function setup() {
       name: "level1",
       platforms: [
         { x: -800, y: 200, w: 900, h: 500 },
-        { x: -900, y: -600, w: 700, h: 850 },
+        { x: -800, y: -600, w: 600, h: 850 },
 
         { x: 300, y: 100, w: 150, h: 50 },
 
         { x: 680, y: -100, w: 200, h: 50 },
         { x: 680, y: -850, w: 200, h: 550 },
 
-        { x: 1060, y: 100, w: 150, h: 50 },
+        // { x: 1060, y: 100, w: 150, h: 50 },
 
         { x: 1060, y: 100, w: 200, h: 1000 },
         { x: 1200, y: 250, w: 200, h: 800 },
@@ -327,7 +335,7 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 0; // 0 Starting position above the ground
+    this.x = 1200; // 0 Starting position above the ground
     this.y = 50; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
