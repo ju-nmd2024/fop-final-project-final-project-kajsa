@@ -1,4 +1,5 @@
 let levelImages = {};
+let objectImages = {};
 
 let player;
 
@@ -11,7 +12,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 2; // Tracks the current level
+let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -23,9 +24,15 @@ let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
 function preload() {
-  levelImages["level.1"] = loadImage("images/level1.png");
-  levelImages["level.2"] = loadImage("images/level2.png");
-  levelImages["level.3"] = loadImage("images/level3.png");
+  {
+    levelImages["level.1"] = loadImage("images/level1.png");
+    levelImages["level.2"] = loadImage("images/level2.png");
+    levelImages["level.3"] = loadImage("images/level3.png");
+  }
+  objectImages["spike.up"] = loadImage("images/spike.up.png");
+  objectImages["spike.down"] = loadImage("images/spike.down.png");
+  objectImages["enemy."] = loadImage("images/enemy.png");
+  objectImages["falling."] = loadImage("images/falling.png");
 }
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -56,19 +63,19 @@ function setup() {
       ],
 
       spikes: [
-        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: -150 },
+        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: 150 },
 
         { x1: 1400, y1: 400, x2: 1450, y2: 400, x3: 1425, y3: 350 },
         { x1: 1450, y1: 400, x2: 1500, y2: 400, x3: 1475, y3: 350 },
         { x1: 1500, y1: 400, x2: 1550, y2: 400, x3: 1525, y3: 350 },
         { x1: 1550, y1: 400, x2: 1600, y2: 400, x3: 1575, y3: 350 },
 
-        { x1: 1550, y1: 100, x2: 1600, y2: 100, x3: 1575, y3: 150 },
-        { x1: 1600, y1: 100, x2: 1650, y2: 100, x3: 1625, y3: 150 },
-        { x1: 1650, y1: 100, x2: 1700, y2: 100, x3: 1675, y3: 150 },
-        { x1: 1700, y1: 100, x2: 1750, y2: 100, x3: 1725, y3: 150 },
-        { x1: 1750, y1: 100, x2: 1800, y2: 100, x3: 1775, y3: 150 },
-        { x1: 1800, y1: 100, x2: 1850, y2: 100, x3: 1825, y3: 150 },
+        { x1: 1550, y1: 100, x2: 1600, y2: 100, x3: 1575, y3: -150 },
+        { x1: 1600, y1: 100, x2: 1650, y2: 100, x3: 1625, y3: -150 },
+        { x1: 1650, y1: 100, x2: 1700, y2: 100, x3: 1675, y3: -150 },
+        { x1: 1700, y1: 100, x2: 1750, y2: 100, x3: 1725, y3: -150 },
+        { x1: 1750, y1: 100, x2: 1800, y2: 100, x3: 1775, y3: -150 },
+        { x1: 1800, y1: 100, x2: 1850, y2: 100, x3: 1825, y3: -150 },
       ],
 
       levelEndX: 1900,
@@ -566,8 +573,7 @@ class FallingBrick {
 
   show() {
     if (this.visible) {
-      fill(255, 0, 0, this.alpha);
-      rect(this.x, this.y, this.w, this.h);
+      image(objectImages["falling."], this.x, this.y, this.w, this.h);
     }
   }
 }
@@ -584,9 +590,12 @@ class Spike {
   }
 
   show() {
-    fill(155, 0, 0);
-    noStroke();
-    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+    // You can draw a custom image for the spike
+    if (this.y3 > 0) {
+      image(objectImages["spike.up"], this.x1, this.y1 - 50);
+    } else if (this.y3 < 0) {
+      image(objectImages["spike.down"], this.x1, this.y1);
+    }
   }
 
   // https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
@@ -696,9 +705,8 @@ class Enemy {
   }
 
   show() {
-    fill(100, 100, 100);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+    // You can draw a custom image for the spike
+    image(objectImages["enemy."], this.x, this.y);
   }
 }
 
