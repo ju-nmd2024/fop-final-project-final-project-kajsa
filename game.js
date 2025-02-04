@@ -1,4 +1,4 @@
-let img;
+let levelImages = {};
 
 let player;
 
@@ -22,10 +22,10 @@ let aspectRatio = 16 / 9;
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
-let foreground1;
-
 function preload() {
-  foreground1 = loadImage("images/level1.png");
+  levelImages["level.1"] = loadImage("images/level1.png");
+  levelImages["level.2"] = loadImage("images/level2.png");
+  levelImages["level.3"] = loadImage("images/level3.png");
 }
 
 function setup() {
@@ -225,6 +225,17 @@ function drawStartScreen() {
 
 // Draw gameplay
 function drawGamePlay() {
+  // Display the level background image
+  if (levels[currentLevel].name in levelImages) {
+    image(
+      levelImages[levels[currentLevel].name],
+      cameraX,
+      cameraY,
+      sizeWidth,
+      sizeHeight
+    );
+  }
+
   // // Update camera position to follow the player
   cameraX = -player.x + width / -player.width + 600;
   cameraY = -player.y + height / 2 - player.height / 2;
