@@ -15,7 +15,7 @@ let enemies = []; // Array to store enemies
 
 let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver, gameWin
 let currentLevel = 0; // Tracks the current level
-let levels = []; // Array to store level configurations
+let levels = []; // Array to store level configuration
 
 // camera movement
 let cameraX;
