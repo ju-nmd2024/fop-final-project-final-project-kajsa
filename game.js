@@ -27,7 +27,7 @@ let aspectRatio = 16 / 9;
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
-let frameCount = 60;
+// let frameCount = 60;
 
 function preload() {
   {
