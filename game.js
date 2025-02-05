@@ -27,25 +27,25 @@ let aspectRatio = 16 / 9;
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
-// let frameCount = 60;
+let frameCount = 60;
 
 function preload() {
   {
-    levelImages["level.1.back"] = loadImage("images/level1back.png");
-    levelImages["level.2.back"] = loadImage("images/level2back.png");
-    levelImages["level.3.back"] = loadImage("images/level3back.png");
+    levelImages["level.1.back"] = loadImage("images/level1back.PNG");
+    levelImages["level.2.back"] = loadImage("images/level2back.PNG");
+    levelImages["level.3.back"] = loadImage("images/level3back.PNG");
 
-    levelImages["level.1"] = loadImage("images/level1.png");
-    levelImages["level.2"] = loadImage("images/level2.png");
-    levelImages["level.3"] = loadImage("images/level3.png");
+    levelImages["level.1"] = loadImage("images/level1.PNG");
+    levelImages["level.2"] = loadImage("images/level2.PNG");
+    levelImages["level.3"] = loadImage("images/level3.PNG");
 
-    objectImages["enemy."] = loadImage("images/enemy.png");
+    objectImages["enemy."] = loadImage("images/enemy.PNG");
     objectImages["falling."] = loadImage("images/falling.png");
-    objectImages["player."] = loadImage("images/player.png");
+    objectImages["player."] = loadImage("images/player.PNG");
 
-    screenImages["startScreen."] = loadImage("images/startScreen.png");
-    screenImages["gameOver."] = loadImage("images/gameOver.png");
-    screenImages["gameWin."] = loadImage("images/gameWin.png");
+    screenImages["startScreen."] = loadImage("images/startScreen.PNG");
+    screenImages["gameOver."] = loadImage("images/gameOver.PNG");
+    screenImages["gameWin."] = loadImage("images/gameWin.PNG");
   }
 }
 function setup() {
