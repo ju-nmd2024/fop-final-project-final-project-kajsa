@@ -37,9 +37,6 @@ function preload() {
     levelImages["level.2"] = loadImage("images/level2.png");
     levelImages["level.3"] = loadImage("images/level3.png");
   }
-
-  objectImages["spike.up"] = loadImage("images/spike.up.png");
-  objectImages["spike.down"] = loadImage("images/spike.down.png");
   objectImages["enemy."] = loadImage("images/enemy.png");
   objectImages["falling."] = loadImage("images/falling.png");
 }
@@ -295,7 +292,6 @@ function drawGamePlay() {
 
   // display spikes
   for (let spike of spikes) {
-    spike.show();
     spike.checkCollision(player);
   }
 
@@ -603,15 +599,6 @@ class Spike {
     this.y2 = y2;
     this.x3 = x3;
     this.y3 = y3;
-  }
-
-  show() {
-    // You can draw a custom image for the spike
-    if (this.y3 > 0) {
-      image(objectImages["spike.up"], this.x1, this.y1 - 50);
-    } else if (this.y3 < 0) {
-      image(objectImages["spike.down"], this.x1, this.y1);
-    }
   }
 
   // https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
