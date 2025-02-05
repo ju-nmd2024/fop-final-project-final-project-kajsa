@@ -13,7 +13,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let currentLevel = 2; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -207,6 +207,11 @@ function setup() {
         { x1: 2700, y1: 800, x2: 2750, y2: 800, x3: 2725, y3: 750 },
 
         { x1: 2600, y1: 550, x2: 2650, y2: 550, x3: 2625, y3: 500 },
+      ],
+
+      enemies: [
+        { x: 150, y: 1060, w: 100, h: 50 },
+        { x: 550, y: 1060, w: 100, h: 50 },
       ],
 
       levelEndX: 3100,
