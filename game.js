@@ -129,7 +129,10 @@ function setup() {
         { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
       ],
 
-      enemies: [{ x: 1750, y: 100, w: 100, h: 50 }],
+      enemies: [
+        { x: 1750, y: 100, w: 100, h: 50 },
+        { x: 2275, y: 100, w: 100, h: 50 },
+      ],
 
       levelEndX: 2500,
     },
@@ -677,9 +680,9 @@ class Enemy {
     this.w = w;
     this.h = h;
 
-    this.speed = 3;
+    this.speed = 7;
 
-    this.direction = 1;
+    this.direction = random(-0.5, 1);
   }
 
   update() {
