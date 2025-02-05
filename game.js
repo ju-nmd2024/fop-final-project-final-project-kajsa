@@ -1,9 +1,9 @@
-// images
-let image;
+// // images
+// let image;
 
-let levelImages = {};
-let objectImages = {};
-let screenImages = {};
+// let levelImages = {};
+// let objectImages = {};
+// let screenImages = {};
 
 let player;
 
@@ -31,23 +31,24 @@ let sizeHeight = sizeWidth / aspectRatio;
 
 let frameCount = 60;
 
-function preload() {
-  // image = loadImage("images/level1back.png");
-  {
-    levelImages["level.1.back"] = loadImage("images/level1back.png");
-    levelImages["level.2.back"] = loadImage("images/level2back.png");
-    levelImages["level.3.back"] = loadImage("images/level3back.png");
-    levelImages["level.1"] = loadImage("images/level1.png");
-    levelImages["level.2"] = loadImage("images/level2.png");
-    levelImages["level.3"] = loadImage("images/level3.png");
-    objectImages["enemy."] = loadImage("images/enemy.png");
-    objectImages["falling."] = loadImage("images/falling.png");
-    objectImages["player."] = loadImage("images/player.png");
-    screenImages["startScreen."] = loadImage("images/startScreen.png");
-    screenImages["gameOver."] = loadImage("images/gameOver.png");
-    screenImages["gameWin."] = loadImage("images/gameWin.png");
-  }
-}
+// function preload() {
+//   // image = loadImage("images/level1back.png");
+//   {
+//     levelImages["level.1.back"] = loadImage("images/level1back.png");
+//     levelImages["level.2.back"] = loadImage("images/level2back.png");
+//     levelImages["level.3.back"] = loadImage("images/level3back.png");
+//     levelImages["level.1"] = loadImage("images/level1.png");
+//     levelImages["level.2"] = loadImage("images/level2.png");
+//     levelImages["level.3"] = loadImage("images/level3.png");
+//     objectImages["enemy."] = loadImage("images/enemy.png");
+//     objectImages["falling."] = loadImage("images/falling.png");
+//     objectImages["player."] = loadImage("images/player.png");
+//     screenImages["startScreen."] = loadImage("images/startScreen.png");
+//     screenImages["gameOver."] = loadImage("images/gameOver.png");
+//     screenImages["gameWin."] = loadImage("images/gameWin.png");
+//   }
+// }
+
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
 
@@ -263,12 +264,12 @@ function drawGamePlay() {
   push();
   translate(cameraX, cameraY);
 
-  // Display level background image
-  let backgroundKey = levels[currentLevel].name + ".back";
-  if (backgroundKey in levelImages) {
-    let bgImage = levelImages[backgroundKey];
-    image(bgImage, -800, -1100);
-  }
+  // // Display level background image
+  // let backgroundKey = levels[currentLevel].name + ".back";
+  // if (backgroundKey in levelImages) {
+  //   let bgImage = levelImages[backgroundKey];
+  //   image(bgImage, -800, -1100);
+  // }
 
   // Update and display the player
   player.update();
@@ -276,6 +277,7 @@ function drawGamePlay() {
 
   // Display platforms
   for (let platform of platforms) {
+    platform.show();
     platform.checkCollision(player);
   }
 
@@ -286,37 +288,39 @@ function drawGamePlay() {
     enemy.checkCollision(player);
   }
 
-  // Display current level
-  if (levels[currentLevel].name in levelImages) {
-    // Dynamic positioning of the level images based on the current level
-    let bgImage = levelImages[levels[currentLevel].name];
-    let xOffset = 0; // Adjust x offset for each level
-    let yOffset = 0; // Adjust y offset for each level
+  // // Display current level
+  // if (levels[currentLevel].name in levelImages) {
+  //   // Dynamic positioning of the level images based on the current level
+  //   let bgImage = levelImages[levels[currentLevel].name];
+  //   let xOffset = 0; // Adjust x offset for each level
+  //   let yOffset = 0; // Adjust y offset for each level
 
-    // Adjust based on the level
-    if (levels[currentLevel].name === "level.1") {
-      xOffset = -800;
-      yOffset = -950;
-    } else if (levels[currentLevel].name === "level.2") {
-      xOffset = -800;
-      yOffset = -1060;
-    } else if (levels[currentLevel].name === "level.3") {
-      xOffset = -800;
-      yOffset = -900;
-    }
+  //   // Adjust based on the level
+  //   if (levels[currentLevel].name === "level.1") {
+  //     xOffset = -800;
+  //     yOffset = -950;
+  //   } else if (levels[currentLevel].name === "level.2") {
+  //     xOffset = -800;
+  //     yOffset = -1060;
+  //   } else if (levels[currentLevel].name === "level.3") {
+  //     xOffset = -800;
+  //     yOffset = -900;
+  //   }
 
-    image(bgImage, xOffset, yOffset);
-  }
+  //   image(bgImage, xOffset, yOffset);
+  // }
 
   // display falling platforms
   for (let fallingBrick of fallingBricks) {
     fallingBrick.update(); // Ensure they fall when triggered
     fallingBrick.checkCollision(player);
-    fallingBrick.imgage();
+    // fallingBrick.imgage();
+    fallingBrick.show();
   }
 
   // display spikes
   for (let spike of spikes) {
+    spike.show();
     spike.checkCollision(player);
   }
 
@@ -428,8 +432,14 @@ class Player {
     }
   }
 
+  // show() {
+  //   image(objectImages["player."], this.x, this.y - 20, 70, 70);
+  // }
+
   show() {
-    image(objectImages["player."], this.x, this.y - 20, 70, 70);
+    noStroke;
+    fill(100, 100, 100);
+    rect(this.x, this.y, this.w, this.h);
   }
 
   reset() {
@@ -603,9 +613,17 @@ class FallingBrick {
     }, 2000);
   }
 
-  imgage() {
+  // imgage() {
+  //   if (this.visible) {
+  //     image(objectImages["falling."], this.x - 10, this.y - 7, 195, 65);
+  //   }
+  // }
+
+  show() {
     if (this.visible) {
-      image(objectImages["falling."], this.x - 10, this.y - 7, 195, 65);
+      noStroke();
+      fill(200, 200, 200);
+      rect(this.x, this.y, this.w, this.h);
     }
   }
 }
@@ -700,6 +718,12 @@ class Spike {
 
     return areaOrig === area1 + area2 + area3;
   }
+
+  show() {
+    noStroke();
+    fill(130, 130, 100);
+    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+  }
 }
 
 // enemy
@@ -739,9 +763,15 @@ class Enemy {
     }
   }
 
+  // show() {
+  //   // enemy image
+  //   image(objectImages["enemy."], this.x, this.y - 5, 100, 50);
+  // }
+
   show() {
-    // enemy image
-    image(objectImages["enemy."], this.x, this.y - 5, 100, 50);
+    noStroke();
+    fill(50, 50, 50);
+    rect(this.x, this.y, this.w, this.h);
   }
 }
 
