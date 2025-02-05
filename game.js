@@ -12,7 +12,7 @@ let spikes = [];
 
 let enemies = [];
 
-let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver
+let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
 let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
@@ -261,6 +261,13 @@ function drawGamePlay() {
     platform.checkCollision(player);
   }
 
+  // display enemies
+  for (let enemy of enemies) {
+    enemy.update();
+    enemy.show();
+    enemy.checkCollision(player);
+  }
+
   // Display level background image if it exists
   if (levels[currentLevel].name in levelImages) {
     // Dynamic positioning of the level images based on the current level
@@ -293,13 +300,6 @@ function drawGamePlay() {
   // display spikes
   for (let spike of spikes) {
     spike.checkCollision(player);
-  }
-
-  // display enemies
-  for (let enemy of enemies) {
-    enemy.update();
-    enemy.show();
-    enemy.checkCollision(player);
   }
 
   if (player.x > levels[currentLevel].levelEndX) {
@@ -707,7 +707,7 @@ class Enemy {
 
   show() {
     // You can draw a custom image for the spike
-    image(objectImages["enemy."], this.x, this.y);
+    image(objectImages["enemy."], this.x, this.y - 5, 100, 50);
   }
 }
 
