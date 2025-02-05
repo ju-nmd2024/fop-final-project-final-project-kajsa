@@ -352,7 +352,8 @@ function drawGameOver() {
   textSize(32);
   fill(0);
   text("Game Over", width / 2, height / 3);
-  text("Press ENTER to Restart", width / 2, height / 2);
+  text("Press R to Restart", width / 2, height / 2);
+  text("Press S to go to start", width / 2, height / 2 - 50);
 }
 
 // // Draw the game-Win screen
@@ -366,7 +367,8 @@ function drawGameWin() {
   textSize(32);
   fill(150, 150, 100);
   text("YOU WIN!", width / 2, height / 3);
-  text("Press ENTER to Restart", width / 2, height / 2);
+  text("Press R to Restart", width / 2, height / 2);
+  text("Press S to go to start", width / 2, height / 2 - 50);
 }
 
 // Load a level based on the index
@@ -724,9 +726,9 @@ class Enemy {
     this.w = w;
     this.h = h;
 
-    this.speed = 3;
+    this.speed = 7;
 
-    this.direction = 1;
+    this.direction = random(-0.5, 1);
   }
 
   update() {
