@@ -1,6 +1,6 @@
 let levelImages = {};
 let objectImages = {};
-let backgroundImages = {};
+let screenImages = {};
 
 let player;
 
@@ -12,7 +12,7 @@ let spikes = [];
 
 let enemies = [];
 
-let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
+let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver
 let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
@@ -31,14 +31,18 @@ function preload() {
     levelImages["level.1.back"] = loadImage("images/level1back.png");
     levelImages["level.2.back"] = loadImage("images/level2back.png");
     levelImages["level.3.back"] = loadImage("images/level3back.png");
-  }
-  {
+
     levelImages["level.1"] = loadImage("images/level1.png");
     levelImages["level.2"] = loadImage("images/level2.png");
     levelImages["level.3"] = loadImage("images/level3.png");
+
+    objectImages["enemy."] = loadImage("images/enemy.png");
+    objectImages["falling."] = loadImage("images/falling.png");
+
+    screenImages["startScreen."] = loadImage("images/startScreen.png");
+    screenImages["gameOver."] = loadImage("images/gameOver.png");
+    screenImages["gameWin."] = loadImage("images/gameWin.png");
   }
-  objectImages["enemy."] = loadImage("images/enemy.png");
-  objectImages["falling."] = loadImage("images/falling.png");
 }
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -228,11 +232,7 @@ function draw() {
 
 // Draw the start screen
 function drawStartScreen() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(0);
-  text("Platformer Game", width / 2, height / 3);
-  text("Press ENTER to Start", width / 2, height / 2);
+  image(screenImages["startScreen."], 0, 0);
 }
 
 // Draw gameplay
@@ -323,20 +323,12 @@ function drawGamePlay() {
 
 // Draw the game-over screen
 function drawGameOver() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(0);
-  text("Game Over", width / 2, height / 3);
-  text("Press ENTER to Restart", width / 2, height / 2);
+  image(screenImages["gameOver."], 0, 0);
 }
 
 // Draw the game-over screen
 function drawGameWin() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(150, 150, 100);
-  text("YOU WIN!", width / 2, height / 3);
-  text("Press ENTER to Restart", width / 2, height / 2);
+  image(screenImages["gameWin."], 0, 0);
 }
 
 // Load a level based on the index
@@ -719,19 +711,23 @@ class Enemy {
   }
 }
 
-// Handle key inputs
 function keyPressed() {
   if (gameState === "startScreen" && keyCode === ENTER) {
     gameState = "gameplay"; // Start the game
+    currentLevel = 0; // Reset to the first level
+    loadLevel(currentLevel);
+    player.reset();
   } else if (gameState === "gameplay" && keyCode === UP_ARROW) {
     player.jump(); // Make the player jump
   } else if (
-    gameState === "gameOver" ||
-    (gameState === "gameWin" && keyCode === ENTER)
+    (gameState === "gameOver" || gameState === "gameWin") &&
+    key === "r"
   ) {
-    gameState = "startScreen"; // Restart the game
+    gameState = "gameplay"; // Restart the game
     currentLevel = 0; // Reset to the first level
-    loadLevel(currentLevel); // Load the first level
-    player.reset(); // Reset player
+    loadLevel(currentLevel);
+    player.reset();
+  } else if (key === "s") {
+    gameState = "startScreen"; // Go back to the start screen
   }
 }
