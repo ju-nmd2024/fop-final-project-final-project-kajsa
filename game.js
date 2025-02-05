@@ -1,5 +1,6 @@
 let levelImages = {};
 let objectImages = {};
+let backgroundImages = {};
 
 let player;
 
@@ -12,7 +13,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 2; // Tracks the current level
+let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -25,10 +26,16 @@ let sizeHeight = sizeWidth / aspectRatio;
 
 function preload() {
   {
+    levelImages["level.1.back"] = loadImage("images/level1back.png");
+    levelImages["level.2.back"] = loadImage("images/level2back.png");
+    levelImages["level.3.back"] = loadImage("images/level3back.png");
+  }
+  {
     levelImages["level.1"] = loadImage("images/level1.png");
     levelImages["level.2"] = loadImage("images/level2.png");
     levelImages["level.3"] = loadImage("images/level3.png");
   }
+
   objectImages["spike.up"] = loadImage("images/spike.up.png");
   objectImages["spike.down"] = loadImage("images/spike.down.png");
   objectImages["enemy."] = loadImage("images/enemy.png");
@@ -237,6 +244,13 @@ function drawGamePlay() {
 
   push();
   translate(cameraX, cameraY);
+
+  // Display level background image if it exists
+  let backgroundKey = levels[currentLevel].name + ".back";
+  if (backgroundKey in levelImages) {
+    let bgImage = levelImages[backgroundKey];
+    image(bgImage, -800, -1100);
+  }
 
   // Update and display the player
   player.update();
