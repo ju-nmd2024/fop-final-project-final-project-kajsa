@@ -1,9 +1,9 @@
 // images
 let image;
 
-// let levelImages = {};
-// let objectImages = {};
-// let screenImages = {};
+let levelImages = {};
+let objectImages = {};
+let screenImages = {};
 
 let player;
 
@@ -32,20 +32,20 @@ let sizeHeight = sizeWidth / aspectRatio;
 let frameCount = 60;
 
 function preload() {
-  image = loadImage("images/level1back.png");
+  // image = loadImage("images/level1back.png");
   {
-    // levelImages["level.1.back"] = loadImage("images/level1back.png");
-    // levelImages["level.2.back"] = loadImage("images/level2back.png");
-    // levelImages["level.3.back"] = loadImage("images/level3back.png");
-    // levelImages["level.1"] = loadImage("images/level1.png");
-    // levelImages["level.2"] = loadImage("images/level2.png");
-    // levelImages["level.3"] = loadImage("images/level3.png");
-    // objectImages["enemy."] = loadImage("images/enemy.png");
-    // objectImages["falling."] = loadImage("images/falling.png");
-    // objectImages["player."] = loadImage("images/player.png");
-    // screenImages["startScreen."] = loadImage("images/startScreen.png");
-    // screenImages["gameOver."] = loadImage("images/gameOver.png");
-    // screenImages["gameWin."] = loadImage("images/gameWin.png");
+    levelImages["level.1.back"] = loadImage("images/level1back.png");
+    levelImages["level.2.back"] = loadImage("images/level2back.png");
+    levelImages["level.3.back"] = loadImage("images/level3back.png");
+    levelImages["level.1"] = loadImage("images/level1.png");
+    levelImages["level.2"] = loadImage("images/level2.png");
+    levelImages["level.3"] = loadImage("images/level3.png");
+    objectImages["enemy."] = loadImage("images/enemy.png");
+    objectImages["falling."] = loadImage("images/falling.png");
+    objectImages["player."] = loadImage("images/player.png");
+    screenImages["startScreen."] = loadImage("images/startScreen.png");
+    screenImages["gameOver."] = loadImage("images/gameOver.png");
+    screenImages["gameWin."] = loadImage("images/gameWin.png");
   }
 }
 function setup() {
