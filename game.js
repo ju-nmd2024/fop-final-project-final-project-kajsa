@@ -1,3 +1,9 @@
+// let image;
+
+// let levelImages = {};
+// let objectImages = {};
+// let screenImages = {};
+
 let player;
 
 let platforms = []; // Array to store platforms
@@ -8,8 +14,8 @@ let spikes = [];
 
 let enemies = [];
 
-let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 1; // Tracks the current level
+let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver
+let currentLevel = 0; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -19,6 +25,26 @@ let aspectRatio = 16 / 9;
 
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
+
+// function preload() {
+//   {
+//     levelImages["level.1.back"] = loadImage("images/level1back.png");
+//     levelImages["level.2.back"] = loadImage("images/level2back.png");
+//     levelImages["level.3.back"] = loadImage("images/level3back.png");
+
+//     levelImages["level.1"] = loadImage("images/level1.png");
+//     levelImages["level.2"] = loadImage("images/level2.png");
+//     levelImages["level.3"] = loadImage("images/level3.png");
+
+//     objectImages["enemy."] = loadImage("images/enemy.png");
+//     objectImages["falling."] = loadImage("images/falling.png");
+//     objectImages["player."] = loadImage("images/player.png");
+
+//     screenImages["startScreen."] = loadImage("images/startScreen.png");
+//     screenImages["gameOver."] = loadImage("images/gameOver.png");
+//     screenImages["gameWin."] = loadImage("images/gameWin.png");
+//   }
+// }
 
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -49,7 +75,7 @@ function setup() {
       ],
 
       spikes: [
-        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: 150 },
+        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: -150 },
 
         { x1: 1400, y1: 400, x2: 1450, y2: 400, x3: 1425, y3: 350 },
         { x1: 1450, y1: 400, x2: 1500, y2: 400, x3: 1475, y3: 350 },
@@ -214,12 +240,17 @@ function draw() {
   }
 }
 
+// // Draw the start screen
+// function drawStartScreen() {
+//   image(screenImages["startScreen."], 0, 0);
+// }
+
 // Draw the start screen
 function drawStartScreen() {
   textAlign(CENTER, CENTER);
   textSize(32);
   fill(0);
-  text("Platformer Game", width / 2, height / 3);
+  text("Rainbow Road", width / 2, height / 3);
   text("Press ENTER to Start", width / 2, height / 2);
 }
 
@@ -231,6 +262,13 @@ function drawGamePlay() {
 
   push();
   translate(cameraX, cameraY);
+
+  // // Display level background image if it exists
+  // let backgroundKey = levels[currentLevel].name + ".back";
+  // if (backgroundKey in levelImages) {
+  //   let bgImage = levelImages[backgroundKey];
+  //   image(bgImage, -800, -1100);
+  // }
 
   // Update and display the player
   player.update();
@@ -262,6 +300,28 @@ function drawGamePlay() {
     enemy.checkCollision(player);
   }
 
+  // // Display level background image if it exists
+  // if (levels[currentLevel].name in levelImages) {
+  //   // Dynamic positioning of the level images based on the current level
+  //   let bgImage = levelImages[levels[currentLevel].name];
+  //   let xOffset = 0; // Adjust x offset for each level, if needed
+  //   let yOffset = 0; // Adjust y offset for each level, if needed
+
+  //   // Adjust based on the level
+  //   if (levels[currentLevel].name === "level.1") {
+  //     xOffset = -800;
+  //     yOffset = -950;
+  //   } else if (levels[currentLevel].name === "level.2") {
+  //     xOffset = -800;
+  //     yOffset = -1060;
+  //   } else if (levels[currentLevel].name === "level.3") {
+  //     xOffset = -800;
+  //     yOffset = -900;
+  //   }
+
+  //   image(bgImage, xOffset, yOffset);
+  // }
+
   if (player.x > levels[currentLevel].levelEndX) {
     currentLevel++;
     if (currentLevel >= levels.length) {
@@ -281,6 +341,11 @@ function drawGamePlay() {
   }
 }
 
+// // Draw the game-over screen
+// function drawGameOver() {
+//   image(screenImages["gameOver."], 0, 0);
+// }
+
 // Draw the game-over screen
 function drawGameOver() {
   textAlign(CENTER, CENTER);
@@ -290,7 +355,12 @@ function drawGameOver() {
   text("Press ENTER to Restart", width / 2, height / 2);
 }
 
-// Draw the game-over screen
+// // Draw the game-Win screen
+// function drawGameWin() {
+//   image(screenImages["gameWin."], 0, 0);
+// }
+
+// Draw the game-Win screen
 function drawGameWin() {
   textAlign(CENTER, CENTER);
   textSize(32);
@@ -311,7 +381,9 @@ function loadLevel(index) {
     platforms.push(new Platform(p.x, p.y, p.w, p.h));
   }
 
-  // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+  /** got help to resolve a bug
+   *  https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+   **/
 
   if (levelData.fallingBricks) {
     for (let fb of levelData.fallingBricks) {
@@ -398,14 +470,16 @@ class Platform {
   }
 
   /** struggled a lot with the collisions to the walls of the platforms
-
-https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
-
-fix bug that makes jumping close to platform gets the player stuck
-
-  **/
-
-  // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+   *
+   * got help and started from this
+   * https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
+   *
+   * then had some problems with it
+   * https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+   *
+   * during the making the collision detection has been modified to work better
+   *
+   **/
 
   checkCollision(player) {
     let playerRight = player.x + player.width;
@@ -568,8 +642,12 @@ class Spike {
     triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
   }
 
-  // https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
-
+  /**
+   * got help with collision detection for the triangles
+   *
+   * https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
+   *
+   **/
   checkCollision(player) {
     const isColliding =
       this.pointInTriangle(
@@ -681,19 +759,23 @@ class Enemy {
   }
 }
 
-// Handle key inputs
 function keyPressed() {
   if (gameState === "startScreen" && keyCode === ENTER) {
     gameState = "gameplay"; // Start the game
+    currentLevel = 0; // Reset to the first level
+    loadLevel(currentLevel);
+    player.reset();
   } else if (gameState === "gameplay" && keyCode === UP_ARROW) {
     player.jump(); // Make the player jump
   } else if (
-    gameState === "gameOver" ||
-    (gameState === "gameWin" && keyCode === ENTER)
+    (gameState === "gameOver" || gameState === "gameWin") &&
+    key === "r"
   ) {
-    gameState = "startScreen"; // Restart the game
+    gameState = "gameplay"; // Restart the game
     currentLevel = 0; // Reset to the first level
-    loadLevel(currentLevel); // Load the first level
-    player.reset(); // Reset player
+    loadLevel(currentLevel);
+    player.reset();
+  } else if (key === "s") {
+    gameState = "startScreen"; // Go back to the start screen
   }
 }
