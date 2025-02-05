@@ -38,6 +38,7 @@ function preload() {
 
     objectImages["enemy."] = loadImage("images/enemy.png");
     objectImages["falling."] = loadImage("images/falling.png");
+    objectImages["player."] = loadImage("images/player.png");
 
     screenImages["startScreen."] = loadImage("images/startScreen.png");
     screenImages["gameOver."] = loadImage("images/gameOver.png");
@@ -403,8 +404,7 @@ class Player {
   }
 
   show() {
-    fill(0);
-    rect(this.x, this.y, this.width, this.height);
+    image(objectImages["player."], this.x, this.y - 20, 70, 70);
   }
 
   reset() {
