@@ -1,53 +1,24 @@
-// // images
-// let image;
-
-// let levelImages = {};
-// let objectImages = {};
-// let screenImages = {};
-
 let player;
 
 let platforms = []; // Array to store platforms
 
-let fallingBricks = []; // Array to store falling platforms
+let fallingBricks = [];
 
-let spikes = []; // Array to store spikes
+let spikes = [];
 
-let enemies = []; // Array to store enemies
+let enemies = [];
 
-let gameState = "startScreen"; // Game states: startScreen, gameplay, gameOver, gameWin
-let currentLevel = 0; // Tracks the current level
-let levels = []; // Array to store level configuration
+let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
+let currentLevel = 1; // Tracks the current level
+let levels = []; // Array to store level configurations
 
-// camera movement
 let cameraX;
 let cameraY;
 
-// canvas size setup
 let aspectRatio = 16 / 9;
 
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
-
-let frameCount = 60;
-
-// function preload() {
-//   // image = loadImage("images/level1back.png");
-//   {
-//     levelImages["level.1.back"] = loadImage("images/level1back.png");
-//     levelImages["level.2.back"] = loadImage("images/level2back.png");
-//     levelImages["level.3.back"] = loadImage("images/level3back.png");
-//     levelImages["level.1"] = loadImage("images/level1.png");
-//     levelImages["level.2"] = loadImage("images/level2.png");
-//     levelImages["level.3"] = loadImage("images/level3.png");
-//     objectImages["enemy."] = loadImage("images/enemy.png");
-//     objectImages["falling."] = loadImage("images/falling.png");
-//     objectImages["player."] = loadImage("images/player.png");
-//     screenImages["startScreen."] = loadImage("images/startScreen.png");
-//     screenImages["gameOver."] = loadImage("images/gameOver.png");
-//     screenImages["gameWin."] = loadImage("images/gameWin.png");
-//   }
-// }
 
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -55,24 +26,24 @@ function setup() {
   // Define levels
   levels = [
     {
-      // level 1
-
-      name: "level.1",
+      name: "level1",
       platforms: [
         { x: -800, y: 200, w: 900, h: 500 },
-        { x: -800, y: -600, w: 600, h: 850 },
+        { x: -900, y: -600, w: 700, h: 850 },
 
         { x: 300, y: 100, w: 150, h: 50 },
 
-        { x: 650, y: -100, w: 200, h: 50 },
+        { x: 680, y: -100, w: 200, h: 50 },
         { x: 680, y: -850, w: 200, h: 550 },
+
+        { x: 1060, y: 100, w: 150, h: 50 },
 
         { x: 1060, y: 100, w: 200, h: 1000 },
         { x: 1200, y: 250, w: 200, h: 800 },
 
-        { x: 1450, y: 400, w: 400, h: 800 },
+        { x: 1350, y: 400, w: 400, h: 800 },
 
-        { x: 1500, y: -950, w: 550, h: 1050 },
+        { x: 1550, y: -950, w: 550, h: 1050 },
 
         { x: 1850, y: 275, w: 550, h: 50 },
 
@@ -80,7 +51,7 @@ function setup() {
       ],
 
       spikes: [
-        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: 150 },
+        { x1: 755, y1: -100, x2: 805, y2: -100, x3: 780, y3: -150 },
 
         { x1: 1400, y1: 400, x2: 1450, y2: 400, x3: 1425, y3: 350 },
         { x1: 1450, y1: 400, x2: 1500, y2: 400, x3: 1475, y3: 350 },
@@ -98,13 +69,11 @@ function setup() {
       levelEndX: 1900,
     },
     {
-      // level 2
-
-      name: "level.2",
+      name: "level2",
 
       platforms: [
         { x: -800, y: 200, w: 900, h: 500 },
-        { x: -800, y: -600, w: 600, h: 850 },
+        { x: -900, y: -600, w: 700, h: 850 },
 
         { x: 200, y: 250, w: 320, h: 50 },
 
@@ -112,11 +81,9 @@ function setup() {
 
         { x: 1550, y: 150, w: 1550, h: 800 },
 
-        { x: 1770, y: -1050, w: 1500, h: 800 },
+        { x: 1800, y: -1050, w: 1500, h: 800 },
 
-        { x: 2480, y: -100, w: 1050, h: 50 },
-
-        { x: 2580, y: -500, w: 1050, h: 1800 },
+        { x: 2500, y: -100, w: 1050, h: 50 },
       ],
 
       fallingBricks: [
@@ -137,32 +104,27 @@ function setup() {
         { x1: 2100, y1: 150, x2: 2150, y2: 150, x3: 2125, y3: 100 },
       ],
 
-      enemies: [
-        { x: 1750, y: 100, w: 100, h: 50 },
-        { x: 2275, y: 100, w: 100, h: 50 },
-      ],
+      enemies: [{ x: 1750, y: 100, w: 100, h: 50 }],
 
       levelEndX: 2500,
     },
     {
-      // level 3
-
-      name: "level.3",
+      name: "level3",
 
       platforms: [
         { x: -800, y: -600, w: 800, h: 2550 },
 
-        { x: -800, y: -850, w: 1400, h: 800 },
+        { x: -800, y: -900, w: 1400, h: 800 },
 
-        { x: -800, y: 200, w: 1000, h: 50 },
+        { x: -800, y: 200, w: 950, h: 50 },
 
-        { x: 380, y: -850, w: 300, h: 1750 },
+        { x: 400, y: -900, w: 300, h: 1750 },
 
-        { x: 200, y: 400, w: 400, h: 50 },
+        { x: 250, y: 400, w: 350, h: 50 },
 
-        { x: -800, y: 600, w: 1000, h: 50 },
+        { x: -800, y: 600, w: 950, h: 50 },
 
-        { x: 200, y: 800, w: 450, h: 50 },
+        { x: 250, y: 800, w: 350, h: 50 },
 
         { x: 0, y: 1100, w: 800, h: 1550 },
 
@@ -176,11 +138,11 @@ function setup() {
 
         { x: 2050, y: 1000, w: 350, h: 450 },
 
-        { x: 2380, y: 900, w: 250, h: 550 },
+        { x: 2400, y: 900, w: 250, h: 550 },
 
         { x: 2650, y: 800, w: 250, h: 750 },
 
-        { x: 2880, y: 500, w: 1250, h: 1950 },
+        { x: 2900, y: 500, w: 850, h: 1950 },
 
         { x: 2600, y: 550, w: 125, h: 50 },
       ],
@@ -219,11 +181,6 @@ function setup() {
         { x1: 2600, y1: 550, x2: 2650, y2: 550, x3: 2625, y3: 500 },
       ],
 
-      enemies: [
-        { x: 150, y: 1060, w: 100, h: 50 },
-        { x: 550, y: 1060, w: 100, h: 50 },
-      ],
-
       levelEndX: 3100,
     },
   ];
@@ -249,9 +206,13 @@ function draw() {
   }
 }
 
-// Start screen
+// Draw the start screen
 function drawStartScreen() {
-  image(screenImages["startScreen."], 0, 0);
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  fill(0);
+  text("Platformer Game", width / 2, height / 3);
+  text("Press ENTER to Start", width / 2, height / 2);
 }
 
 // Draw gameplay
@@ -260,16 +221,8 @@ function drawGamePlay() {
   cameraX = -player.x + width / -player.width + 600;
   cameraY = -player.y + height / 2 - player.height / 2;
 
-  // move origin
   push();
   translate(cameraX, cameraY);
-
-  // // Display level background image
-  // let backgroundKey = levels[currentLevel].name + ".back";
-  // if (backgroundKey in levelImages) {
-  //   let bgImage = levelImages[backgroundKey];
-  //   image(bgImage, -800, -1100);
-  // }
 
   // Update and display the player
   player.update();
@@ -281,41 +234,11 @@ function drawGamePlay() {
     platform.checkCollision(player);
   }
 
-  // display enemies
-  for (let enemy of enemies) {
-    enemy.update();
-    enemy.show();
-    enemy.checkCollision(player);
-  }
-
-  // // Display current level
-  // if (levels[currentLevel].name in levelImages) {
-  //   // Dynamic positioning of the level images based on the current level
-  //   let bgImage = levelImages[levels[currentLevel].name];
-  //   let xOffset = 0; // Adjust x offset for each level
-  //   let yOffset = 0; // Adjust y offset for each level
-
-  //   // Adjust based on the level
-  //   if (levels[currentLevel].name === "level.1") {
-  //     xOffset = -800;
-  //     yOffset = -950;
-  //   } else if (levels[currentLevel].name === "level.2") {
-  //     xOffset = -800;
-  //     yOffset = -1060;
-  //   } else if (levels[currentLevel].name === "level.3") {
-  //     xOffset = -800;
-  //     yOffset = -900;
-  //   }
-
-  //   image(bgImage, xOffset, yOffset);
-  // }
-
-  // display falling platforms
+  // Display falling platforms
   for (let fallingBrick of fallingBricks) {
     fallingBrick.update(); // Ensure they fall when triggered
-    fallingBrick.checkCollision(player);
-    // fallingBrick.imgage();
     fallingBrick.show();
+    fallingBrick.checkCollision(player);
   }
 
   // display spikes
@@ -324,7 +247,12 @@ function drawGamePlay() {
     spike.checkCollision(player);
   }
 
-  // check for level completion
+  // display enemies
+  for (let enemy of enemies) {
+    enemy.update();
+    enemy.show();
+    enemy.checkCollision(player);
+  }
 
   if (player.x > levels[currentLevel].levelEndX) {
     currentLevel++;
@@ -335,7 +263,6 @@ function drawGamePlay() {
       loadLevel(currentLevel);
       player.reset();
     }
-    // check for gameOver by fall
   } else if (
     (player.y > 700 && currentLevel === 0) ||
     (player.y > 700 && currentLevel === 1)
@@ -346,46 +273,50 @@ function drawGamePlay() {
   }
 }
 
-// game-over screen
+// Draw the game-over screen
 function drawGameOver() {
-  image(screenImages["gameOver."], 0, 0);
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  fill(0);
+  text("Game Over", width / 2, height / 3);
+  text("Press ENTER to Restart", width / 2, height / 2);
 }
 
-// game-win screen
+// Draw the game-over screen
 function drawGameWin() {
-  image(screenImages["gameWin."], 0, 0);
+  textAlign(CENTER, CENTER);
+  textSize(32);
+  fill(150, 150, 100);
+  text("YOU WIN!", width / 2, height / 3);
+  text("Press ENTER to Restart", width / 2, height / 2);
 }
 
 // Load a level based on the index
 function loadLevel(index) {
-  platforms = []; // Clear
-  fallingBricks = []; // Clear
-  spikes = []; // Clear
-  enemies = []; // Clear
+  platforms = []; // Clear existing platforms
+  fallingBricks = [];
+  spikes = [];
+  enemies = [];
 
-  // load platforms according to level index
   let levelData = levels[index];
   for (let p of levelData.platforms) {
     platforms.push(new Platform(p.x, p.y, p.w, p.h));
   }
 
-  /** got help to resolve a bug
-   *  https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
-   **/
+  // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
 
-  // load falling bricks if present in current level index
   if (levelData.fallingBricks) {
     for (let fb of levelData.fallingBricks) {
       fallingBricks.push(new FallingBrick(fb.x, fb.y, fb.w, fb.h));
     }
   }
-  // load falling spikes if present in current level index
+
   if (levelData.spikes) {
     for (let s of levelData.spikes) {
       spikes.push(new Spike(s.x1, s.y1, s.x2, s.y2, s.x3, s.y3));
     }
   }
-  // load falling enemies if present in current level index
+
   if (levelData.enemies) {
     for (let e of levelData.enemies) {
       enemies.push(new Enemy(e.x, e.y, e.w, e.h));
@@ -396,8 +327,8 @@ function loadLevel(index) {
 // Player class
 class Player {
   constructor() {
-    this.x = 0; //
-    this.y = 50; // Starting position above the ground
+    this.x = 0; // 0 Starting position above the ground
+    this.y = 50; // 50 Starting position above the ground
     this.width = 50;
     this.height = 50;
     this.speed = 5;
@@ -408,7 +339,6 @@ class Player {
     this.canDoubleJump = true;
   }
 
-  // left and right movement when keyIsDown
   update() {
     if (this.x > -200 && keyIsDown(LEFT_ARROW)) {
       this.x -= this.speed;
@@ -421,7 +351,7 @@ class Player {
     this.velocity += this.gravity;
     this.y += this.velocity;
   }
-  // jumping logic
+
   jump() {
     if (this.onGround) {
       this.velocity = this.jumpPower;
@@ -432,14 +362,9 @@ class Player {
     }
   }
 
-  // show() {
-  //   image(objectImages["player."], this.x, this.y - 20, 70, 70);
-  // }
-
   show() {
-    noStroke;
-    fill(100, 100, 100);
-    rect(this.x, this.y, this.w, this.h);
+    fill(0);
+    rect(this.x, this.y, this.width, this.height);
   }
 
   reset() {
@@ -465,18 +390,15 @@ class Platform {
   }
 
   /** struggled a lot with the collisions to the walls of the platforms
-   *
-   * got help and started from this
-   * https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
-   *
-   * then had some problems with it
-   * https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
-   *
-   * during the making the collision detection has been modified to work better
-   *
-   **/
 
-  // collision detection
+https://chatgpt.com/share/67842921-e9f8-8005-8a9e-b14750cb799a
+
+fix bug that makes jumping close to platform gets the player stuck
+
+  **/
+
+  // https://chatgpt.com/share/6794e894-0624-8005-961d-00b68c4ec60a
+
   checkCollision(player) {
     let playerRight = player.x + player.width;
     let playerBottom = player.y + player.height;
@@ -494,7 +416,7 @@ class Platform {
       let overlapY = Math.min(playerBottom - this.y, platformBottom - player.y);
 
       if (overlapX < overlapY) {
-        // Side Collision
+        // **Side Collision (Left or Right)**
         if (playerRight > this.x && player.x < this.x) {
           // Player hits Left Side
           player.x = this.x - player.width;
@@ -613,16 +535,9 @@ class FallingBrick {
     }, 2000);
   }
 
-  // imgage() {
-  //   if (this.visible) {
-  //     image(objectImages["falling."], this.x - 10, this.y - 7, 195, 65);
-  //   }
-  // }
-
   show() {
     if (this.visible) {
-      noStroke();
-      fill(200, 200, 200);
+      fill(255, 0, 0, this.alpha);
       rect(this.x, this.y, this.w, this.h);
     }
   }
@@ -639,12 +554,13 @@ class Spike {
     this.y3 = y3;
   }
 
-  /**
-   * got help with collision detection for the triangles
-   *
-   * https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
-   *
-   **/
+  show() {
+    fill(155, 0, 0);
+    noStroke();
+    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+  }
+
+  // https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
 
   checkCollision(player) {
     const isColliding =
@@ -694,13 +610,6 @@ class Spike {
     }
   }
 
-  /**
-   * got help with collision detection for the triangles
-   *
-   * https://chatgpt.com/share/67973222-9e74-8005-b310-b49fe778fec2
-   *
-   **/
-
   // Helper to check if a point is inside a triangle
   pointInTriangle(px, py, x1, y1, x2, y2, x3, y3) {
     const areaOrig = Math.abs(
@@ -718,12 +627,6 @@ class Spike {
 
     return areaOrig === area1 + area2 + area3;
   }
-
-  show() {
-    noStroke();
-    fill(130, 130, 100);
-    triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
-  }
 }
 
 // enemy
@@ -735,9 +638,9 @@ class Enemy {
     this.w = w;
     this.h = h;
 
-    this.speed = 7;
+    this.speed = 3;
 
-    this.direction = random(-0.5, 1);
+    this.direction = 1;
   }
 
   update() {
@@ -763,35 +666,26 @@ class Enemy {
     }
   }
 
-  // show() {
-  //   // enemy image
-  //   image(objectImages["enemy."], this.x, this.y - 5, 100, 50);
-  // }
-
   show() {
+    fill(100, 100, 100);
     noStroke();
-    fill(50, 50, 50);
     rect(this.x, this.y, this.w, this.h);
   }
 }
 
+// Handle key inputs
 function keyPressed() {
   if (gameState === "startScreen" && keyCode === ENTER) {
     gameState = "gameplay"; // Start the game
-    currentLevel = 0; // Reset to the first level
-    loadLevel(currentLevel);
-    player.reset();
   } else if (gameState === "gameplay" && keyCode === UP_ARROW) {
     player.jump(); // Make the player jump
   } else if (
-    (gameState === "gameOver" || gameState === "gameWin") &&
-    key === "r"
+    gameState === "gameOver" ||
+    (gameState === "gameWin" && keyCode === ENTER)
   ) {
-    gameState = "gameplay"; // Restart the game
+    gameState = "startScreen"; // Restart the game
     currentLevel = 0; // Reset to the first level
-    loadLevel(currentLevel);
-    player.reset();
-  } else if (key === "s") {
-    gameState = "startScreen"; // Go back to the start screen
+    loadLevel(currentLevel); // Load the first level
+    player.reset(); // Reset player
   }
 }
