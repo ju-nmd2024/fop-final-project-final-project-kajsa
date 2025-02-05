@@ -13,7 +13,7 @@ let spikes = [];
 let enemies = [];
 
 let gameState = "gameplay"; // Game states: startScreen, gameplay, gameOver
-let currentLevel = 0; // Tracks the current level
+let currentLevel = 1; // Tracks the current level
 let levels = []; // Array to store level configurations
 
 let cameraX;
@@ -257,7 +257,7 @@ function drawGamePlay() {
 
   // Display platforms
   for (let platform of platforms) {
-    platform.show();
+    // platform.show();
     platform.checkCollision(player);
   }
 
@@ -286,8 +286,8 @@ function drawGamePlay() {
   // Display falling platforms
   for (let fallingBrick of fallingBricks) {
     fallingBrick.update(); // Ensure they fall when triggered
-    fallingBrick.show();
     fallingBrick.checkCollision(player);
+    fallingBrick.imgage();
   }
 
   // display spikes
@@ -585,7 +585,13 @@ class FallingBrick {
 
   show() {
     if (this.visible) {
-      image(objectImages["falling."], this.x, this.y, this.w, this.h);
+      rect(this.x, this.y, this.w, this.h);
+    }
+  }
+
+  imgage() {
+    if (this.visible) {
+      image(objectImages["falling."], this.x - 10, this.y - 7, 195, 65);
     }
   }
 }
