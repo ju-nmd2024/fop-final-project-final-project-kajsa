@@ -444,9 +444,13 @@ class Player {
     }
   }
 
+  // show() {
+  //   fill(0);
+  //   rect(this.x, this.y, this.width, this.height);
+  // }
+
   show() {
-    fill(0);
-    rect(this.x, this.y, this.width, this.height);
+    image(objectImages["player."], 0, 0);
   }
 
   reset() {
@@ -465,11 +469,11 @@ class Platform {
     this.h = h;
   }
 
-  show() {
-    fill(150);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
-  }
+  // show() {
+  //   fill(150);
+  //   noStroke();
+  //   rect(this.x, this.y, this.w, this.h);
+  // }
 
   /** struggled a lot with the collisions to the walls of the platforms
    *
@@ -618,6 +622,13 @@ class FallingBrick {
       this.visible = true; // Make it visible again after 2 seconds
     }, 2000);
   }
+
+  // show() {
+  //   if (this.visible) {
+  //     fill(255, 0, 0, this.alpha);
+  //     rect(this.x, this.y, this.w, this.h);
+  //   }
+  // }
 
   show() {
     if (this.visible) {
