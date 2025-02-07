@@ -276,7 +276,7 @@ function drawGamePlay() {
 
   // Display platforms
   for (let platform of platforms) {
-    // platform.show();
+    platform.show();
     platform.checkCollision(player);
   }
 
@@ -469,11 +469,11 @@ class Platform {
     this.h = h;
   }
 
-  // show() {
-  //   fill(150);
-  //   noStroke();
-  //   rect(this.x, this.y, this.w, this.h);
-  // }
+  show() {
+    // fill(150);
+    // noStroke();
+    // rect(this.x, this.y, this.w, this.h);
+  }
 
   /** struggled a lot with the collisions to the walls of the platforms
    *
