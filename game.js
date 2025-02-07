@@ -1,4 +1,4 @@
-// let image;
+let image;
 
 let levelImages = {};
 let objectImages = {};
