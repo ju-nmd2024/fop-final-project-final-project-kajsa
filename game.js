@@ -1,8 +1,8 @@
 // let image;
 
-// let levelImages = {};
-// let objectImages = {};
-// let screenImages = {};
+let levelImages = {};
+let objectImages = {};
+let screenImages = {};
 
 let player;
 
@@ -26,25 +26,25 @@ let aspectRatio = 16 / 9;
 let sizeWidth = 1500;
 let sizeHeight = sizeWidth / aspectRatio;
 
-// function preload() {
-//   {
-//     levelImages["level.1.back"] = loadImage("images/level1back.png");
-//     levelImages["level.2.back"] = loadImage("images/level2back.png");
-//     levelImages["level.3.back"] = loadImage("images/level3back.png");
+function preload() {
+  {
+    levelImages["level.1.back"] = loadImage("images/level1back.png");
+    levelImages["level.2.back"] = loadImage("images/level2back.png");
+    levelImages["level.3.back"] = loadImage("images/level3back.png");
 
-//     levelImages["level.1"] = loadImage("images/level1.png");
-//     levelImages["level.2"] = loadImage("images/level2.png");
-//     levelImages["level.3"] = loadImage("images/level3.png");
+    levelImages["level.1"] = loadImage("images/level1.png");
+    levelImages["level.2"] = loadImage("images/level2.png");
+    levelImages["level.3"] = loadImage("images/level3.png");
 
-//     objectImages["enemy."] = loadImage("images/enemy.png");
-//     objectImages["falling."] = loadImage("images/falling.png");
-//     objectImages["player."] = loadImage("images/player.png");
+    objectImages["enemy."] = loadImage("images/enemy.png");
+    objectImages["falling."] = loadImage("images/falling.png");
+    objectImages["player."] = loadImage("images/player.png");
 
-//     screenImages["startScreen."] = loadImage("images/startScreen.png");
-//     screenImages["gameOver."] = loadImage("images/gameOver.png");
-//     screenImages["gameWin."] = loadImage("images/gameWin.png");
-//   }
-// }
+    screenImages["startScreen."] = loadImage("images/startScreen.png");
+    screenImages["gameOver."] = loadImage("images/gameOver.png");
+    screenImages["gameWin."] = loadImage("images/gameWin.png");
+  }
+}
 
 function setup() {
   createCanvas(sizeWidth, sizeHeight);
@@ -240,19 +240,19 @@ function draw() {
   }
 }
 
-// // Draw the start screen
-// function drawStartScreen() {
-//   image(screenImages["startScreen."], 0, 0);
-// }
-
 // Draw the start screen
 function drawStartScreen() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(0);
-  text("Rainbow Road", width / 2, height / 3);
-  text("Press ENTER to Start", width / 2, height / 2);
+  image(screenImages["startScreen."], 0, 0);
 }
+
+// // Draw the start screen
+// function drawStartScreen() {
+//   textAlign(CENTER, CENTER);
+//   textSize(32);
+//   fill(0);
+//   text("Rainbow Road", width / 2, height / 3);
+//   text("Press ENTER to Start", width / 2, height / 2);
+// }
 
 // Draw gameplay
 function drawGamePlay() {
@@ -263,12 +263,12 @@ function drawGamePlay() {
   push();
   translate(cameraX, cameraY);
 
-  // // Display level background image if it exists
-  // let backgroundKey = levels[currentLevel].name + ".back";
-  // if (backgroundKey in levelImages) {
-  //   let bgImage = levelImages[backgroundKey];
-  //   image(bgImage, -800, -1100);
-  // }
+  // Display level background image if it exists
+  let backgroundKey = levels[currentLevel].name + ".back";
+  if (backgroundKey in levelImages) {
+    let bgImage = levelImages[backgroundKey];
+    image(bgImage, -800, -1100);
+  }
 
   // Update and display the player
   player.update();
@@ -300,27 +300,27 @@ function drawGamePlay() {
     enemy.checkCollision(player);
   }
 
-  // // Display level background image if it exists
-  // if (levels[currentLevel].name in levelImages) {
-  //   // Dynamic positioning of the level images based on the current level
-  //   let bgImage = levelImages[levels[currentLevel].name];
-  //   let xOffset = 0; // Adjust x offset for each level, if needed
-  //   let yOffset = 0; // Adjust y offset for each level, if needed
+  // Display level background image if it exists
+  if (levels[currentLevel].name in levelImages) {
+    // Dynamic positioning of the level images based on the current level
+    let bgImage = levelImages[levels[currentLevel].name];
+    let xOffset = 0; // Adjust x offset for each level, if needed
+    let yOffset = 0; // Adjust y offset for each level, if needed
 
-  //   // Adjust based on the level
-  //   if (levels[currentLevel].name === "level.1") {
-  //     xOffset = -800;
-  //     yOffset = -950;
-  //   } else if (levels[currentLevel].name === "level.2") {
-  //     xOffset = -800;
-  //     yOffset = -1060;
-  //   } else if (levels[currentLevel].name === "level.3") {
-  //     xOffset = -800;
-  //     yOffset = -900;
-  //   }
+    // Adjust based on the level
+    if (levels[currentLevel].name === "level.1") {
+      xOffset = -800;
+      yOffset = -950;
+    } else if (levels[currentLevel].name === "level.2") {
+      xOffset = -800;
+      yOffset = -1060;
+    } else if (levels[currentLevel].name === "level.3") {
+      xOffset = -800;
+      yOffset = -900;
+    }
 
-  //   image(bgImage, xOffset, yOffset);
-  // }
+    image(bgImage, xOffset, yOffset);
+  }
 
   if (player.x > levels[currentLevel].levelEndX) {
     currentLevel++;
@@ -341,35 +341,35 @@ function drawGamePlay() {
   }
 }
 
-// // Draw the game-over screen
-// function drawGameOver() {
-//   image(screenImages["gameOver."], 0, 0);
-// }
-
 // Draw the game-over screen
 function drawGameOver() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(0);
-  text("Game Over", width / 2, height / 3);
-  text("Press R to Restart", width / 2, height / 2);
-  text("Press S to go to start", width / 2, height / 2 - 50);
+  image(screenImages["gameOver."], 0, 0);
 }
 
-// // Draw the game-Win screen
-// function drawGameWin() {
-//   image(screenImages["gameWin."], 0, 0);
+// // Draw the game-over screen
+// function drawGameOver() {
+//   textAlign(CENTER, CENTER);
+//   textSize(32);
+//   fill(0);
+//   text("Game Over", width / 2, height / 3);
+//   text("Press R to Restart", width / 2, height / 2);
+//   text("Press S to go to start", width / 2, height / 2 - 50);
 // }
 
 // Draw the game-Win screen
 function drawGameWin() {
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  fill(150, 150, 100);
-  text("YOU WIN!", width / 2, height / 3);
-  text("Press R to Restart", width / 2, height / 2);
-  text("Press S to go to start", width / 2, height / 2 - 50);
+  image(screenImages["gameWin."], 0, 0);
 }
+
+// // Draw the game-Win screen
+// function drawGameWin() {
+//   textAlign(CENTER, CENTER);
+//   textSize(32);
+//   fill(150, 150, 100);
+//   text("YOU WIN!", width / 2, height / 3);
+//   text("Press R to Restart", width / 2, height / 2);
+//   text("Press S to go to start", width / 2, height / 2 - 50);
+// }
 
 // Load a level based on the index
 function loadLevel(index) {
