@@ -276,7 +276,7 @@ function drawGamePlay() {
 
   // Display platforms
   for (let platform of platforms) {
-    platform.show();
+    // platform.show();
     platform.checkCollision(player);
   }
 
@@ -289,7 +289,7 @@ function drawGamePlay() {
 
   // display spikes
   for (let spike of spikes) {
-    spike.show();
+    // spike.show();
     spike.checkCollision(player);
   }
 
