@@ -450,7 +450,7 @@ class Player {
   // }
 
   show() {
-    image(objectImages["player."], 0, 0);
+    image(objectImages["player."], this.x, this.y - 20, 70, 70);
   }
 
   reset() {
@@ -632,8 +632,7 @@ class FallingBrick {
 
   show() {
     if (this.visible) {
-      fill(255, 0, 0, this.alpha);
-      rect(this.x, this.y, this.w, this.h);
+      image(objectImages["falling."], this.x - 10, this.y - 7, 195, 65);
     }
   }
 }
@@ -765,10 +764,14 @@ class Enemy {
     }
   }
 
+  // show() {
+  //   fill(100, 100, 100);
+  //   noStroke();
+  //   rect(this.x, this.y, this.w, this.h);
+  // }
+
   show() {
-    fill(100, 100, 100);
-    noStroke();
-    rect(this.x, this.y, this.w, this.h);
+    image(objectImages["enemy."], this.x, this.y - 5, 100, 50);
   }
 }
 
